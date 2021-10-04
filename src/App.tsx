@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Headline } from './components/base/Headline';
+import { Party } from './domain/Party';
+import { PartyDetails } from './app/PartyDetails';
+import { Theme } from './layout/Theme';
+import React, { ReactElement } from 'react';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 
-function App() {
+const partyData: Party = {
+  host: {
+    name: 'David',
+    avatarUrl: 'david_avatar.jpg'
+  },
+  description: 'Es herrscht Kostüm-Pflicht! Bitte bringe eine Kleinigkeit zu Essen mit (Salat, Fingerfoog, Nachspeise).',
+  guests: [
+    { name: 'Selina', costume: 'Catwoman' },
+    { name: 'Bruce', costume: 'Batman' },
+    { name: 'Kim' }
+  ]
+};
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+  }
+`;
+
+const AppContainer = styled.div`
+  text-align: center;
+  font-family: ${(props): any => props.theme.fonts.text};
+`;
+
+const App = function (): ReactElement {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <GlobalStyle />
+      <ThemeProvider theme={ Theme }>
+        <AppContainer>
+          <Headline>Halloween Party Planner</Headline>
+          <PartyDetails partyData={ partyData } />
+        </AppContainer>
+      </ThemeProvider>
+    </React.Fragment>
   );
-}
+};
 
-export default App;
+export { App };
