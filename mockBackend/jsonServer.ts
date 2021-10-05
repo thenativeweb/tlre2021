@@ -15,6 +15,8 @@ server.use((req, res, next): void => {
   if (req.method === 'POST') {
     // eslint-disable-next-line no-param-reassign
     req.body.id = mockParties.length + 1;
+    // eslint-disable-next-line no-param-reassign
+    req.body.guests = [];
   }
 
   // Continue to JSON Server router

@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "disableReferencedProjectLoad": true,
     "strict": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
@@ -19,9 +20,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
   },
   "include": [
-    "src" 
-]
+    "src"
+  ]
 }

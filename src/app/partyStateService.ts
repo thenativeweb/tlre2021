@@ -1,6 +1,5 @@
 import { Guest } from '../domain/Guest';
 import { Party } from '../domain/Party';
-import { UnstoredParty } from '../domain/UnstoredParty';
 
 const addGuestToParty = (party: Party, guest: Guest): Party => ({
   ...party,
@@ -10,13 +9,9 @@ const addGuestToParty = (party: Party, guest: Guest): Party => ({
   ]
 });
 
-const addParty = (parties: Party[], newParty: UnstoredParty): Party[] => [
+const addPartyToList = (parties: Party[], newParty: Party): Party[] => [
   ...parties,
-  {
-    ...newParty,
-    id: parties.length,
-    guests: []
-  }
+  newParty
 ];
 
 const updateParty = (parties: Party[], updatedParty: Party): Party[] =>
@@ -33,7 +28,7 @@ const sumOfGuests = (parties: Party[]): number =>
 
 export {
   addGuestToParty,
-  addParty,
+  addPartyToList,
   updateParty,
   sumOfGuests
 };
