@@ -7,7 +7,7 @@ import { PartyOverview } from '../components/party/PartyOverview';
 import styled from 'styled-components';
 import { UnstoredParty } from '../domain/UnstoredParty';
 import { addGuestToParty, addParty, updateParty } from './partyStateService';
-import React, { FunctionComponent, ReactElement, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 
 const StyledPartyList = styled.ul`
   list-style-type: none;
@@ -17,34 +17,40 @@ const StyledPartyList = styled.ul`
   }
 `;
 
-const mockParties: Party[] = [
-  {
-    id: 1,
-    host: {
-      name: 'David',
-      avatarUrl: 'avatare/avatar1.jpg'
-    },
-    description: 'Gruselig schaurige Party - mit ordentlich Metal und Rock Musik!',
-    guests: [
-      { name: 'Selina', costume: 'Catwoman' },
-      { name: 'Bruce', costume: 'Batman' },
-      { name: 'Kim' }
-    ]
-  },
-  {
-    id: 2,
-    host: {
-      name: 'Golo',
-      avatarUrl: 'avatare/avatar2.jpg'
-    },
-    description: 'Die beste Party des Jahres! Mit den besten Elektro-Beats überhaupt!',
-    guests: []
-  }
-];
+type ApiState = 'loading' | 'success' | 'error';
 
 const PartyList: FunctionComponent = (): ReactElement => {
-  const [ parties, setParties ] = useState<Party[]>(mockParties);
+  const [ parties, setParties ] = useState<Party[]>([]);
+  const [ apiState, setApiState ] = useState<ApiState>('loading');
   const [ showPartyForm, setShowPartyForm ] = useState<boolean>(true);
+
+  useEffect((): void => {
+    fetch('http://localhost:3001/parties').
+      then(async (res): Promise<Party[]> => {
+        if (!res.ok) {
+          throw new Error('Error on API Call');
+        }
+
+        return res.json();
+      }).
+      then((loadedParties): void => {
+        setParties(loadedParties);
+        setApiState('success');
+      }).
+      catch((ex): void => {
+        setApiState('error');
+        // eslint-disable-next-line no-console
+        console.error('Error while fetching Parties.', ex);
+      });
+  }, []);
+
+  if (apiState === 'loading') {
+    return (<p>Lade Parties...</p>);
+  }
+
+  if (apiState === 'error') {
+    return (<p>Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...</p>);
+  }
 
   const handleNewGuestFor = (party: Party, newGuest: Guest): void => {
     setParties(updateParty(parties, addGuestToParty(party, newGuest)));
