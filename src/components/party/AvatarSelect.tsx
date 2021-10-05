@@ -3,12 +3,12 @@ import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
 
 interface AvatarSelectProps {
   onChange: (selectedAvatarUrl: string) => void;
-  value?: string;
+  value: string;
 }
 
 const AvatarSelect: FunctionComponent<AvatarSelectProps> = ({
   onChange,
-  value = 'avatare/avatar1.jpg'
+  value
 }): ReactElement => {
   const handleAvatarChange: ChangeEventHandler<HTMLSelectElement> = (event): void => {
     onChange(event.target.value);

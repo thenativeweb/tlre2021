@@ -12,7 +12,7 @@ interface PartyFormProps {
 }
 
 const createEmptyHost = (): Host => ({
-  avatarUrl: '',
+  avatarUrl: 'avatare/avatar1.jpg',
   name: ''
 });
 
