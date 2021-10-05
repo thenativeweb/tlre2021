@@ -1,5 +1,7 @@
 import { Button } from '../base/Button';
+import { Form } from '../base/Form';
 import { Guest } from '../../domain/Guest';
+import { SubHeadline } from '../base/SubHeadline';
 import { TextInput } from '../base/TextInput';
 import { ChangeEventHandler, FormEventHandler, FunctionComponent, ReactElement, useState } from 'react';
 
@@ -32,22 +34,20 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ onSave }): ReactEl
   };
 
   return (
-    <form onSubmit={ handleSave }>
-      <span>Sei dabei: </span>
+    <Form onSubmit={ handleSave }>
+      <SubHeadline>Zur Party anmelden:</SubHeadline>
       <TextInput
-        placeholder='Name'
-        aria-label='Name'
+        label='Name'
         value={ newGuest.name }
         onChange={ createEventHandlerFor('name') }
       />
       <TextInput
-        placeholder='Kostüm'
-        aria-label='Kostüm'
+        label='Kostüm'
         value={ newGuest.costume }
         onChange={ createEventHandlerFor('costume') }
       />
       <Button type='submit'>Speichern</Button>
-    </form>
+    </Form>
   );
 };
 

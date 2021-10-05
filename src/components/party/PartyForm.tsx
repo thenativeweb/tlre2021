@@ -1,5 +1,6 @@
 import { AvatarSelect } from './AvatarSelect';
 import { Button } from '../base/Button';
+import { Form } from '../base/Form';
 import { Host } from '../../domain/Host';
 import { TextArea } from '../base/TextArea';
 import { TextInput } from '../base/TextInput';
@@ -48,12 +49,23 @@ const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave }): ReactEle
   };
 
   return (
-    <form>
-      <TextInput placeholder='Name des Gastgebers' value={ host.name } onChange={ handleHostNameChange } />
-      <AvatarSelect onChange={ handleAvatarChange } />
-      <TextArea value={ description } onChange={ handleDescriptionChange } />
-      <Button type='button' onClick={ handlePartySave }>Neue Party eintragen</Button>
-    </form>
+    <Form>
+      <TextInput
+        label='Name des Gastgebers'
+        value={ host.name }
+        onChange={ handleHostNameChange }
+      />
+      <AvatarSelect
+        onChange={ handleAvatarChange }
+        value={ host.avatarUrl }
+      />
+      <TextArea
+        label='Partybeschreibung'
+        value={ description }
+        onChange={ handleDescriptionChange }
+      />
+      <Button type='button' onClick={ handlePartySave }>Party speichern</Button>
+    </Form>
   );
 };
 

@@ -6,6 +6,7 @@ const Button = styled.button`
   padding: 10px 32px;
   border-radius: 4px;
   border: none;
+  max-height: 40px;
   
   :hover {
     background-color: ${(props): any => props.theme.colors.secondary};
