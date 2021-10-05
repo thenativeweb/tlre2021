@@ -1,7 +1,13 @@
+import { Button } from '../components/base/Button';
+import { Guest } from '../domain/Guest';
 import { Party } from '../domain/Party';
 import { PartyDetails } from './PartyDetails';
+import { PartyForm } from '../components/party/PartyForm';
+import { PartyOverview } from '../components/party/PartyOverview';
 import styled from 'styled-components';
-import React, { FunctionComponent, ReactElement } from 'react';
+import { UnstoredParty } from '../domain/UnstoredParty';
+import { addGuestToParty, addParty, updateParty } from './partyStateService';
+import React, { FunctionComponent, ReactElement, useState } from 'react';
 
 const StyledPartyList = styled.ul`
   list-style-type: none;
@@ -11,12 +17,12 @@ const StyledPartyList = styled.ul`
   }
 `;
 
-const parties: Party[] = [
+const mockParties: Party[] = [
   {
     id: 1,
     host: {
       name: 'David',
-      avatarUrl: 'david_avatar.jpg'
+      avatarUrl: 'avatare/avatar1.jpg'
     },
     description: 'Gruselig schaurige Party - mit ordentlich Metal und Rock Musik!',
     guests: [
@@ -29,7 +35,7 @@ const parties: Party[] = [
     id: 2,
     host: {
       name: 'Golo',
-      avatarUrl: 'golo_avatar.jpg'
+      avatarUrl: 'avatare/avatar2.jpg'
     },
     description: 'Die beste Party des Jahres! Mit den besten Elektro-Beats überhaupt!',
     guests: []
@@ -37,16 +43,40 @@ const parties: Party[] = [
 ];
 
 const PartyList: FunctionComponent = (): ReactElement => {
-  const allParties = parties.map((party): ReactElement => (
+  const [ parties, setParties ] = useState<Party[]>(mockParties);
+  const [ showPartyForm, setShowPartyForm ] = useState<boolean>(true);
+
+  const handleNewGuestFor = (party: Party, newGuest: Guest): void => {
+    setParties(updateParty(parties, addGuestToParty(party, newGuest)));
+  };
+
+  const toggleShowPartyForm = (): void => {
+    setShowPartyForm((currentState): boolean => !currentState);
+  };
+
+  const handleNewParty = (newParty: UnstoredParty): void => {
+    setParties((currentParties): Party[] => addParty(currentParties, newParty));
+    toggleShowPartyForm();
+  };
+
+  const partyDetails = parties.map((party): ReactElement => (
     <li key={ party.id }>
-      <PartyDetails key={ party.id } partyData={ party } />
+      <PartyDetails
+        partyData={ party }
+        handleNewGuest={ (newGuest: Guest): void => handleNewGuestFor(party, newGuest) }
+      />
     </li>
   ));
 
   return (
-    <StyledPartyList>
-      {allParties}
-    </StyledPartyList>
+    <React.Fragment>
+      <PartyOverview parties={ parties } />
+      <Button onClick={ toggleShowPartyForm }>Neue Party hinzufügen</Button>
+      {showPartyForm && <PartyForm onPartySave={ handleNewParty } />}
+      <StyledPartyList>
+        {partyDetails}
+      </StyledPartyList>
+    </React.Fragment>
   );
 };
 

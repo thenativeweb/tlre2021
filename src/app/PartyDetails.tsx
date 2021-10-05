@@ -1,4 +1,6 @@
+import { AddGuestForm } from '../components/party/AddGuestForm';
 import { Col } from '../layout/Col';
+import { Guest } from '../domain/Guest';
 import { GuestList } from '../components/party/GuestList';
 import { Headline } from '../components/base/Headline';
 import { HostInfo } from '../components/party/HostInfo';
@@ -11,9 +13,10 @@ import { FunctionComponent, ReactElement } from 'react';
 
 interface PartyDetailsProps {
   partyData: Party;
+  handleNewGuest: (newGuest: Guest) => void;
 }
 
-const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData }): ReactElement => (
+const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleNewGuest }): ReactElement => (
   <PageLayout>
     <Row>
       <Col size={ 1 }>
@@ -36,6 +39,7 @@ const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData }): Reac
       <Col size={ 3 }>
         <SubHeadline>Auf diese {partyData.guests.length} Gäste darfst Du dich freuen</SubHeadline>
         <GuestList guests={ partyData.guests } />
+        <AddGuestForm onSave={ handleNewGuest } />
       </Col>
     </Row>
   </PageLayout>
