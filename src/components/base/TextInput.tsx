@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
 
 const Container = styled.div`
   display: inline-block;
@@ -14,8 +15,6 @@ const StyledTextInput = styled.input`
   margin: 2px;
   display: block;
 `;
-
-import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
 
 interface TextInputProps {
   value: any;
