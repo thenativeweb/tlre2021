@@ -1,6 +1,10 @@
 {
-  "extends": "es/browser",
-  "rules": {
-    "react/react-in-jsx-scope": 0
-  }
+  "plugins": [
+    "react-hooks"
+  ],
+  "extends": [
+    "es/browser",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended"
+  ]
 }

@@ -6,6 +6,7 @@
     "start": "concurrently \"npm:start:frontend\" \"npm:start:backend\"",
     "start:frontend": "cross-env ESLINT_NO_DEV_ERRORS='true' BROWSER=none react-scripts start",
     "start:backend": "ts-node --project mockBackend/tsconfig.json mockBackend/jsonServer.ts",
+    "lint": "eslint ./src/**/*",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

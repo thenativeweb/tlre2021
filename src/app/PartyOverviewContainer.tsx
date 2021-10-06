@@ -26,7 +26,7 @@ const PartyOverviewContainer: FunctionComponent<PartyListContainerProps> = ({ pa
         // eslint-disable-next-line no-console
         console.error('Error while fetching Parties.', ex);
       });
-  }, []);
+  }, [ partyApi ]);
 
   const handlePartyUpdate = async (updatedParty: Party): Promise<void> => {
     const storedUpdatedParty = await partyApi.updateParty(updatedParty);
