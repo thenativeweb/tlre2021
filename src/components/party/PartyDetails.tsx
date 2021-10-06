@@ -1,15 +1,19 @@
-import { AddGuestForm } from '../components/party/AddGuestForm';
-import { Col } from '../layout/Col';
-import { Guest } from '../domain/Guest';
-import { GuestList } from '../components/party/GuestList';
-import { Headline } from '../components/base/Headline';
-import { HostInfo } from '../components/party/HostInfo';
-import { PageLayout } from '../layout/PageLayout';
-import { Party } from '../domain/Party';
-import { PartyDescription } from '../components/party/PartyDescription';
-import { Row } from '../layout/Row';
-import { SubHeadline } from '../components/base/SubHeadline';
+import { AddGuestForm } from './AddGuestForm';
+import { Col } from '../../layout/Col';
+import { Guest } from '../../domain/Guest';
+import { GuestList } from './GuestList';
+import { Headline } from '../base/Headline';
+import { HostInfo } from './HostInfo';
+import { Party } from '../../domain/Party';
+import { PartyDescription } from './PartyDescription';
+import { Row } from '../../layout/Row';
+import styled from 'styled-components';
+import { SubHeadline } from '../base/SubHeadline';
 import { FunctionComponent, ReactElement } from 'react';
+
+const StyledDiv = styled.div`
+  background-color: ${(props): any => props.theme.colors.background};
+`;
 
 interface PartyDetailsProps {
   partyData: Party;
@@ -17,7 +21,7 @@ interface PartyDetailsProps {
 }
 
 const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleNewGuest }): ReactElement => (
-  <PageLayout>
+  <StyledDiv>
     <Row>
       <Col size={ 1 }>
         <Headline>{ partyData.host.name }s Halloween-Party</Headline>
@@ -42,7 +46,7 @@ const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleN
         <AddGuestForm onSave={ handleNewGuest } />
       </Col>
     </Row>
-  </PageLayout>
+  </StyledDiv>
 );
 
 export {

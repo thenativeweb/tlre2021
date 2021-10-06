@@ -1,6 +1,6 @@
 import { Party } from '../domain/Party';
 import { PartyApi } from './PartyApi';
-import { PartyList } from './PartyList';
+import { PartyOverview } from './PartyOverview';
 import { UnstoredParty } from '../domain/UnstoredParty';
 import { addPartyToList, updateParty } from './partyStateService';
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ interface PartyListContainerProps {
 
 type ApiState = 'loading' | 'success' | 'error';
 
-const PartyListContainer: FunctionComponent<PartyListContainerProps> = ({ partyApi }): ReactElement => {
+const PartyOverviewContainer: FunctionComponent<PartyListContainerProps> = ({ partyApi }): ReactElement => {
   const [ parties, setParties ] = useState<Party[]>([]);
   const [ apiState, setApiState ] = useState<ApiState>('loading');
 
@@ -49,7 +49,7 @@ const PartyListContainer: FunctionComponent<PartyListContainerProps> = ({ partyA
   }
 
   return (
-    <PartyList
+    <PartyOverview
       parties={ parties }
       onAddParty={ handleNewParty }
       onUpdateParty={ handlePartyUpdate }
@@ -58,6 +58,6 @@ const PartyListContainer: FunctionComponent<PartyListContainerProps> = ({ partyA
 };
 
 export {
-  PartyListContainer
+  PartyOverviewContainer
 
 };
