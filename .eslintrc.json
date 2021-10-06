@@ -8,5 +8,8 @@
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
     "plugin:styled-components-a11y/recommended"
-  ]
+  ],
+  "rules": {
+    "styled-components-a11y/no-onchange": 0
+  }
 }
