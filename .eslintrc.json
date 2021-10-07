@@ -1,7 +1,8 @@
 {
   "plugins": [
     "react-hooks",
-    "styled-components-a11y"
+    "styled-components-a11y",
+    "jest"
   ],
   "extends": [
     "es/browser",
@@ -9,6 +10,9 @@
     "plugin:react-hooks/recommended",
     "plugin:styled-components-a11y/recommended"
   ],
+  "env":{
+    "jest/globals": true
+  },
   "rules": {
     "styled-components-a11y/no-onchange": 0
   }

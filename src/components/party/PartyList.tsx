@@ -37,7 +37,7 @@ const PartyList: FunctionComponent<PartyListProps> = ({ parties, onUpdateParty }
   ));
 
   return (
-    <StyledPartyList>
+    <StyledPartyList aria-label='Liste aller Parties'>
       {partyDetails}
     </StyledPartyList>
   );
