@@ -1,13 +1,13 @@
-import { createTestHost } from '../domain/createTestHost';
-import { createTestParty } from '../domain/createTestParty';
-import { createTestPartyApi } from './TestPartyApi';
-import { defer } from '../../test/controllabePromise';
-import { Guest } from '../domain/Guest';
+import { createTestHost } from '../../domain/createTestHost';
+import { createTestParty } from '../../domain/createTestParty';
+import { createTestPartyApi } from '../api/TestPartyApi';
+import { defer } from '../../../test/controllabePromise';
+import { Guest } from '../../domain/Guest';
 import noop from 'lodash/noop';
-import { Party } from '../domain/Party';
+import { Party } from '../../domain/Party';
 import { PartyOverviewContainer } from './PartyOverviewContainer';
-import { renderWithTheme } from '../../test/renderWithTheme';
-import { UnstoredParty } from '../domain/UnstoredParty';
+import { renderWithTheme } from '../../../test/renderWithTheme';
+import { UnstoredParty } from '../../domain/UnstoredParty';
 import userEvent from '@testing-library/user-event';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 

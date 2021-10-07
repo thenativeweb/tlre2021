@@ -1,8 +1,8 @@
 import noop from 'lodash/noop';
 import { PartyForm } from './PartyForm';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
-import { UnstoredParty } from '../../domain/UnstoredParty';
+import { UnstoredParty } from '../../../../domain/UnstoredParty';
 import userEvent from '@testing-library/user-event';
 
 describe('<PartyFormTest />', (): void => {

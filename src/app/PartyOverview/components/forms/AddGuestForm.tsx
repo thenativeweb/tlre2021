@@ -1,8 +1,8 @@
-import { Button } from '../base/Button';
-import { Form } from '../base/Form';
-import { Guest } from '../../domain/Guest';
-import { SubHeadline } from '../base/SubHeadline';
-import { TextInput } from '../base/TextInput';
+import { Button } from '../../../../components/Button';
+import { Form } from '../../../../components/Form';
+import { Guest } from '../../../../domain/Guest';
+import { SubHeadline } from '../../../../components/SubHeadline';
+import { TextInput } from '../../../../components/TextInput';
 import { ChangeEventHandler, FormEventHandler, FunctionComponent, ReactElement, useState } from 'react';
 
 const createEmptyGuest = (): Guest => ({

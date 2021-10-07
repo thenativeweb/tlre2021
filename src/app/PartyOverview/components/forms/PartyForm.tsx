@@ -1,10 +1,10 @@
 import { AvatarSelect } from './AvatarSelect';
-import { Button } from '../base/Button';
-import { Form } from '../base/Form';
-import { Host } from '../../domain/Host';
-import { TextArea } from '../base/TextArea';
-import { TextInput } from '../base/TextInput';
-import { UnstoredParty } from '../../domain/UnstoredParty';
+import { Button } from '../../../../components/Button';
+import { Form } from '../../../../components/Form';
+import { Host } from '../../../../domain/Host';
+import { TextArea } from '../../../../components/TextArea';
+import { TextInput } from '../../../../components/TextInput';
+import { UnstoredParty } from '../../../../domain/UnstoredParty';
 import { ChangeEventHandler, FunctionComponent, ReactElement, useState } from 'react';
 
 interface PartyFormProps {

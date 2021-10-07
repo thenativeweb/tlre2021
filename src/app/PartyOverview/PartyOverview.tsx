@@ -1,9 +1,9 @@
-import { Button } from '../components/base/Button';
-import { Party } from '../domain/Party';
-import { PartyForm } from '../components/party/PartyForm';
-import { PartyList } from '../components/party/PartyList';
-import { PartyNumbers } from '../components/party/PartyNumbers';
-import { UnstoredParty } from '../domain/UnstoredParty';
+import { Button } from '../../components/Button';
+import { Party } from '../../domain/Party';
+import { PartyForm } from './components/forms/PartyForm';
+import { PartyList } from './components/PartyList';
+import { PartyNumbers } from './components/PartyNumbers';
+import { UnstoredParty } from '../../domain/UnstoredParty';
 import React, { FunctionComponent, ReactElement, useState } from 'react';
 
 interface PartyOverviewProps {

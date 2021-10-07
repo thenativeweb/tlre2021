@@ -1,7 +1,7 @@
-import { createTestGuest } from '../../domain/createTestGuest';
-import { createTestParty } from '../../domain/createTestParty';
+import { createTestGuest } from '../../../domain/createTestGuest';
+import { createTestParty } from '../../../domain/createTestParty';
 import { PartyNumbers } from './PartyNumbers';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
 
 describe('<PartyNumbers />', (): void => {

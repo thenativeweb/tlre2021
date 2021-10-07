@@ -1,8 +1,8 @@
-import { Party } from '../domain/Party';
-import { PartyApi } from './PartyApi';
+import { Party } from '../../domain/Party';
+import { PartyApi } from '../api/PartyApi';
 import { PartyOverview } from './PartyOverview';
-import { UnstoredParty } from '../domain/UnstoredParty';
-import { addPartyToList, updateParty } from './partyStateService';
+import { UnstoredParty } from '../../domain/UnstoredParty';
+import { addPartyToList, updateParty } from '../partyStateService';
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 
 interface PartyListContainerProps {

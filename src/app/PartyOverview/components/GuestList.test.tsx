@@ -1,6 +1,6 @@
-import { createTestGuest } from '../../domain/createTestGuest';
+import { createTestGuest } from '../../../domain/createTestGuest';
 import { GuestList } from './GuestList';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
 
 describe('<GuestList />', (): void => {

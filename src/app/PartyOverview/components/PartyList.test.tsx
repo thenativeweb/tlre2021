@@ -1,9 +1,9 @@
-import { createTestHost } from '../../domain/createTestHost';
-import { createTestParty } from '../../domain/createTestParty';
+import { createTestHost } from '../../../domain/createTestHost';
+import { createTestParty } from '../../../domain/createTestParty';
 import noop from 'lodash/noop';
-import { Party } from '../../domain/Party';
+import { Party } from '../../../domain/Party';
 import { PartyList } from './PartyList';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

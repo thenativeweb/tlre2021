@@ -1,4 +1,4 @@
-import { Select } from '../base/Select';
+import { Select } from '../../../../components/Select';
 import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
 
 interface AvatarSelectProps {

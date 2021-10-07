@@ -1,6 +1,6 @@
-import { addGuestToParty } from '../../app/partyStateService';
-import { Guest } from '../../domain/Guest';
-import { Party } from '../../domain/Party';
+import { addGuestToParty } from '../../partyStateService';
+import { Guest } from '../../../domain/Guest';
+import { Party } from '../../../domain/Party';
 import { PartyDetails } from './PartyDetails';
 import styled from 'styled-components';
 import { FunctionComponent, ReactElement } from 'react';

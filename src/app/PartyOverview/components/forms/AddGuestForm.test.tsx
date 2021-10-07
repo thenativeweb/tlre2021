@@ -1,7 +1,7 @@
 import { AddGuestForm } from './AddGuestForm';
-import { Guest } from '../../domain/Guest';
+import { Guest } from '../../../../domain/Guest';
 import noop from 'lodash/noop';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

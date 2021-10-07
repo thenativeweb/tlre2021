@@ -1,10 +1,10 @@
-import { createTestGuest } from '../../domain/createTestGuest';
-import { createTestHost } from '../../domain/createTestHost';
-import { createTestParty } from '../../domain/createTestParty';
-import { Guest } from '../../domain/Guest';
+import { createTestGuest } from '../../../domain/createTestGuest';
+import { createTestHost } from '../../../domain/createTestHost';
+import { createTestParty } from '../../../domain/createTestParty';
+import { Guest } from '../../../domain/Guest';
 import noop from 'lodash/noop';
 import { PartyDetails } from './PartyDetails';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

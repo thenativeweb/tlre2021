@@ -1,5 +1,5 @@
-import { Party } from '../../domain/Party';
-import { sumOfGuests } from '../../app/partyStateService';
+import { Party } from '../../../domain/Party';
+import { sumOfGuests } from '../../partyStateService';
 import { FunctionComponent, ReactElement } from 'react';
 
 interface PartyNumbersProps {

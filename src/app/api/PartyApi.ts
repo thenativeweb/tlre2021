@@ -1,5 +1,5 @@
-import { Party } from '../domain/Party';
-import { UnstoredParty } from '../domain/UnstoredParty';
+import { Party } from '../../domain/Party';
+import { UnstoredParty } from '../../domain/UnstoredParty';
 
 interface PartyApi {
   fetchAllParties: () => Promise<Party[]>;

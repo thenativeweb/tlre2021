@@ -1,5 +1,5 @@
 import { HostInfo } from './HostInfo';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
 
 describe('<HostInfo />', (): void => {

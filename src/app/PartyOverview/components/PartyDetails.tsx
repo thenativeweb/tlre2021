@@ -1,14 +1,14 @@
-import { AddGuestForm } from './AddGuestForm';
-import { Col } from '../../layout/Col';
-import { Guest } from '../../domain/Guest';
+import { AddGuestForm } from './forms/AddGuestForm';
+import { Col } from '../../../layout/Col';
+import { Guest } from '../../../domain/Guest';
 import { GuestList } from './GuestList';
-import { Headline } from '../base/Headline';
+import { Headline } from '../../../components/Headline';
 import { HostInfo } from './HostInfo';
-import { Party } from '../../domain/Party';
+import { Party } from '../../../domain/Party';
 import { PartyDescription } from './PartyDescription';
-import { Row } from '../../layout/Row';
+import { Row } from '../../../layout/Row';
 import styled from 'styled-components';
-import { SubHeadline } from '../base/SubHeadline';
+import { SubHeadline } from '../../../components/SubHeadline';
 import { FunctionComponent, ReactElement } from 'react';
 
 const StyledDiv = styled.div`

@@ -1,6 +1,6 @@
 import { AvatarSelect } from './AvatarSelect';
 import noop from 'lodash/noop';
-import { renderWithTheme } from '../../../test/renderWithTheme';
+import { renderWithTheme } from '../../../../../test/renderWithTheme';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

@@ -1,7 +1,7 @@
-import { createTestParty } from '../domain/createTestParty';
-import { Party } from '../domain/Party';
+import { createTestParty } from '../../domain/createTestParty';
+import { Party } from '../../domain/Party';
 import { PartyApi } from './PartyApi';
-import { UnstoredParty } from '../domain/UnstoredParty';
+import { UnstoredParty } from '../../domain/UnstoredParty';
 
 const defaultTestPartyApi: PartyApi = {
   addNewParty: async (newParty: UnstoredParty): Promise<Party> => Promise.resolve(createTestParty(newParty)),
