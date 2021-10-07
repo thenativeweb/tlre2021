@@ -1,19 +1,15 @@
 import { AddGuestForm } from './forms/AddGuestForm';
-import { Col } from '../../../layout/Col';
+import { FlexCard } from '../../../layout/FlexCard/FlexCard';
+import { FlexCardCol } from '../../../layout/FlexCard/FlexcardCol';
+import { FlexCardRow } from '../../../layout/FlexCard/FlexCardRow';
 import { Guest } from '../../../domain/Guest';
 import { GuestList } from './GuestList';
 import { Headline } from '../../../components/Headline';
 import { HostInfo } from './HostInfo';
 import { Party } from '../../../domain/Party';
 import { PartyDescription } from './PartyDescription';
-import { Row } from '../../../layout/Row';
-import styled from 'styled-components';
 import { SubHeadline } from '../../../components/SubHeadline';
 import { FunctionComponent, ReactElement } from 'react';
-
-const StyledDiv = styled.div`
-  background-color: ${(props): any => props.theme.colors.background};
-`;
 
 interface PartyDetailsProps {
   partyData: Party;
@@ -21,32 +17,32 @@ interface PartyDetailsProps {
 }
 
 const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleNewGuest }): ReactElement => (
-  <StyledDiv>
-    <Row>
-      <Col size={ 1 }>
+  <FlexCard>
+    <FlexCardRow>
+      <FlexCardCol size={ 1 }>
         <Headline>{ partyData.host.name }s Halloween-Party</Headline>
-      </Col>
-    </Row>
+      </FlexCardCol>
+    </FlexCardRow>
 
-    <Row>
-      <Col size={ 1 }>
+    <FlexCardRow>
+      <FlexCardCol size={ 1 }>
         <SubHeadline>Dein Gastgeber</SubHeadline>
         <HostInfo name={ partyData.host.name } avatarUrl={ partyData.host.avatarUrl } />
-      </Col>
-      <Col size={ 2 }>
+      </FlexCardCol>
+      <FlexCardCol size={ 2 }>
         <SubHeadline>Alles was du zur Party wissen musst:</SubHeadline>
         <PartyDescription description={ partyData.description } />
-      </Col>
-    </Row>
+      </FlexCardCol>
+    </FlexCardRow>
 
-    <Row>
-      <Col size={ 3 }>
+    <FlexCardRow>
+      <FlexCardCol size={ 3 }>
         <SubHeadline>Auf diese {partyData.guests.length} Gäste darfst Du dich freuen</SubHeadline>
         <GuestList guests={ partyData.guests } />
         <AddGuestForm onSave={ handleNewGuest } />
-      </Col>
-    </Row>
-  </StyledDiv>
+      </FlexCardCol>
+    </FlexCardRow>
+  </FlexCard>
 );
 
 export {
