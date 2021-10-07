@@ -1,6 +1,6 @@
 import { AddGuestForm } from './forms/AddGuestForm';
 import { FlexCard } from '../../../layout/FlexCard/FlexCard';
-import { FlexCardCol } from '../../../layout/FlexCard/FlexcardCol';
+import { FlexCardCol } from '../../../layout/FlexCard/FlexCardCol';
 import { FlexCardRow } from '../../../layout/FlexCard/FlexCardRow';
 import { Guest } from '../../../domain/Guest';
 import { GuestList } from './GuestList';
