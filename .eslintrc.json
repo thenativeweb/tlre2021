@@ -1,6 +1,19 @@
 {
-  "extends": "es/browser",
+  "plugins": [
+    "react-hooks",
+    "styled-components-a11y",
+    "jest"
+  ],
+  "extends": [
+    "es/browser",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:styled-components-a11y/recommended"
+  ],
+  "env":{
+    "jest/globals": true
+  },
   "rules": {
-    "react/react-in-jsx-scope": 0
+    "styled-components-a11y/no-onchange": 0
   }
 }

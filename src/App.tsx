@@ -1,45 +1,19 @@
-import { Headline } from './components/base/Headline';
-import { Party } from './domain/Party';
-import { PartyDetails } from './app/PartyDetails';
+import { createFetchPartyApi } from './app/api/FetchPartyApi';
+import { Headline } from './components/Headline';
+import { PageLayout } from './layout/PageLayout';
+import { PartyOverviewContainer } from './app/PartyOverview/PartyOverviewContainer';
+import { ReactElement } from 'react';
 import { Theme } from './layout/Theme';
-import React, { ReactElement } from 'react';
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
-
-const partyData: Party = {
-  host: {
-    name: 'David',
-    avatarUrl: 'david_avatar.jpg'
-  },
-  description: 'Es herrscht Kostüm-Pflicht! Bitte bringe eine Kleinigkeit zu Essen mit (Salat, Fingerfoog, Nachspeise).',
-  guests: [
-    { name: 'Selina', costume: 'Catwoman' },
-    { name: 'Bruce', costume: 'Batman' },
-    { name: 'Kim' }
-  ]
-};
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-  }
-`;
-
-const AppContainer = styled.div`
-  text-align: center;
-  font-family: ${(props): any => props.theme.fonts.text};
-`;
+import { ThemeProvider } from 'styled-components';
 
 const App = function (): ReactElement {
   return (
-    <React.Fragment>
-      <GlobalStyle />
-      <ThemeProvider theme={ Theme }>
-        <AppContainer>
-          <Headline>Halloween Party Planner</Headline>
-          <PartyDetails partyData={ partyData } />
-        </AppContainer>
-      </ThemeProvider>
-    </React.Fragment>
+    <ThemeProvider theme={ Theme }>
+      <PageLayout>
+        <Headline>Halloween Party Planner</Headline>
+        <PartyOverviewContainer partyApi={ createFetchPartyApi() } />
+      </PageLayout>
+    </ThemeProvider>
   );
 };
 

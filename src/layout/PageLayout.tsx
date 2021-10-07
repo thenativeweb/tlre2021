@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
-const PageLayout = styled.div`
+const PageLayout = styled.main.attrs((): any => ({
+  role: 'main'
+}))`
   max-width: 1024px;
   margin: auto;
-  background-color: ${(props): any => props.theme.colors.background};
+  text-align: center;
+  font-family: ${(props): any => props.theme.fonts.text};
 `;
 
 export {

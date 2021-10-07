@@ -1,19 +1,20 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 
-interface PersonCardProps {
+interface HostInfoProps {
   name: string;
-  avatarUrl: string;
+  avatarUrl?: string;
 }
 
-const PersonCard: FunctionComponent<PersonCardProps> = function ({ name, avatarUrl }): ReactElement {
+const HostInfo: FunctionComponent<HostInfoProps> = function ({ name, avatarUrl }): ReactElement {
   return (
     <React.Fragment>
       { avatarUrl && <img src={ avatarUrl } width='100px' alt={ `Avatar von ${name}` } /> }
-      <span>{name}</span>
+      <br />
+      <span><strong>{name}</strong></span>
     </React.Fragment>
   );
 };
 
 export {
-  PersonCard
+  HostInfo
 };
