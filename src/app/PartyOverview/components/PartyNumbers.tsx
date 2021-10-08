@@ -1,14 +1,21 @@
 import { Party } from '../../../domain/Party';
 import { sumOfGuests } from '../../partyStateService';
-import { FunctionComponent, ReactElement } from 'react';
+import { TextContext } from '../../texts/TextContext';
+import { FunctionComponent, ReactElement, useContext } from 'react';
 
 interface PartyNumbersProps {
   parties: Party[];
 }
 
-const PartyNumbers: FunctionComponent<PartyNumbersProps> = ({ parties }): ReactElement => (
-  <p>Wir haben <strong>{parties.length} Parties</strong> mit insgesamt <strong>{sumOfGuests(parties)} Gästen</strong> für Dich!</p>
-);
+const PartyNumbers: FunctionComponent<PartyNumbersProps> = ({ parties }): ReactElement => {
+  const texts = useContext(TextContext);
+
+  const htmlText = texts.partyOverview.partyNumbers(parties.length, sumOfGuests(parties));
+
+  return (
+    <p dangerouslySetInnerHTML={{ __html: htmlText }} />
+  );
+};
 
 export {
   PartyNumbers

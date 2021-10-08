@@ -4,7 +4,7 @@ import { createTestParty } from '../../../domain/createTestParty';
 import { Guest } from '../../../domain/Guest';
 import noop from 'lodash/noop';
 import { PartyDetails } from './PartyDetails';
-import { renderWithTheme } from '../../../../test/renderWithTheme';
+import { renderWithProviders } from '../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -14,7 +14,7 @@ describe('<PartyDetails />', (): void => {
       name: 'Selina'
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <PartyDetails
         partyData={ createTestParty({
           host: testHost
@@ -32,7 +32,7 @@ describe('<PartyDetails />', (): void => {
       avatarUrl: 'path/to/avatar'
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <PartyDetails
         partyData={ createTestParty({
           host: testHost
@@ -46,7 +46,7 @@ describe('<PartyDetails />', (): void => {
   });
 
   it('shows the party description.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <PartyDetails
         partyData={ createTestParty({
           description: 'Test Party Description'
@@ -63,7 +63,7 @@ describe('<PartyDetails />', (): void => {
       createTestGuest({ name: 'Selina', costume: 'Catwoman' })
     ];
 
-    renderWithTheme(
+    renderWithProviders(
       <PartyDetails
         partyData={ createTestParty({
           guests
@@ -78,7 +78,7 @@ describe('<PartyDetails />', (): void => {
   it('when adding a new guest in the AddGuestForm, passes the guest data.', async (): Promise<void> => {
     const handleNewGuestSpy = jest.fn();
 
-    renderWithTheme(
+    renderWithProviders(
       <PartyDetails
         partyData={ createTestParty() }
         handleNewGuest={ handleNewGuestSpy }

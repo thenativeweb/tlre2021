@@ -3,9 +3,10 @@ import { Button } from '../../../../components/Button';
 import { Form } from '../../../../components/Form';
 import { Host } from '../../../../domain/Host';
 import { TextArea } from '../../../../components/TextArea';
+import { TextContext } from '../../../texts/TextContext';
 import { TextInput } from '../../../../components/TextInput';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
-import { ChangeEventHandler, FunctionComponent, ReactElement, useState } from 'react';
+import { ChangeEventHandler, FunctionComponent, ReactElement, useContext, useState } from 'react';
 
 interface PartyFormProps {
   onPartySave: (newParty: UnstoredParty) => void;
@@ -18,6 +19,7 @@ const createEmptyHost = (): Host => ({
 const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave }): ReactElement => {
   const [ host, setHost ] = useState<Host>(createEmptyHost());
   const [ description, setDescription ] = useState<string>('');
+  const texts = useContext(TextContext);
 
   const handleHostNameChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
     setHost({
@@ -50,7 +52,7 @@ const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave }): ReactEle
   return (
     <Form>
       <TextInput
-        label='Name des Gastgebers'
+        label={ texts.addPartyForm.hostNameInputLabel }
         value={ host.name }
         onChange={ handleHostNameChange }
       />
@@ -59,11 +61,11 @@ const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave }): ReactEle
         value={ host.avatarUrl }
       />
       <TextArea
-        label='Partybeschreibung'
+        label={ texts.addPartyForm.descriptionLabel }
         value={ description }
         onChange={ handleDescriptionChange }
       />
-      <Button type='button' onClick={ handlePartySave }>Party speichern</Button>
+      <Button type='button' onClick={ handlePartySave }>{texts.addPartyForm.saveButtonLabel}</Button>
     </Form>
   );
 };

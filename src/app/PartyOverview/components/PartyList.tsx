@@ -3,7 +3,8 @@ import { Guest } from '../../../domain/Guest';
 import { Party } from '../../../domain/Party';
 import { PartyDetails } from './PartyDetails';
 import styled from 'styled-components';
-import { FunctionComponent, ReactElement } from 'react';
+import { TextContext } from '../../texts/TextContext';
+import { FunctionComponent, ReactElement, useContext } from 'react';
 
 const StyledPartyList = styled.ul`
   list-style-type: none;
@@ -18,6 +19,7 @@ interface PartyListProps {
   onUpdateParty: (party: Party) => void;
 }
 const PartyList: FunctionComponent<PartyListProps> = ({ parties, onUpdateParty }): ReactElement => {
+  const texts = useContext(TextContext);
   const handleNewGuestFor = async (party: Party, newGuest: Guest): Promise<void> => {
     const updatedParty = addGuestToParty(party, newGuest);
 
@@ -37,7 +39,7 @@ const PartyList: FunctionComponent<PartyListProps> = ({ parties, onUpdateParty }
   ));
 
   return (
-    <StyledPartyList aria-label='Liste aller Parties'>
+    <StyledPartyList aria-label={ texts.partyList.listLabel }>
       {partyDetails}
     </StyledPartyList>
   );

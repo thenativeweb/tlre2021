@@ -3,9 +3,10 @@ import { Party } from '../../domain/Party';
 import { PartyApi } from '../api/PartyApi';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
+import { TextContext } from '../texts/TextContext';
 import { UnstoredParty } from '../../domain/UnstoredParty';
 import { addPartyToList, updateParty } from '../partyStateService';
-import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactElement, useContext, useEffect, useState } from 'react';
 
 interface PartyListContainerProps {
   partyApi: PartyApi;
@@ -16,6 +17,7 @@ type ApiState = 'loading' | 'success' | 'error';
 const PartyOverview: FunctionComponent<PartyListContainerProps> = ({ partyApi }): ReactElement => {
   const [ parties, setParties ] = useState<Party[]>([]);
   const [ apiState, setApiState ] = useState<ApiState>('loading');
+  const texts = useContext(TextContext);
 
   useEffect((): void => {
     partyApi.fetchAllParties().
@@ -43,11 +45,11 @@ const PartyOverview: FunctionComponent<PartyListContainerProps> = ({ partyApi })
   };
 
   if (apiState === 'loading') {
-    return (<p>Lade Parties...</p>);
+    return (<p>{texts.partyOverview.loading}</p>);
   }
 
   if (apiState === 'error') {
-    return (<p>Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...</p>);
+    return (<p>{texts.partyOverview.error}</p>);
   }
 
   return (

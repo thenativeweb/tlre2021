@@ -1,13 +1,13 @@
 import { AddGuestForm } from './AddGuestForm';
 import { Guest } from '../../../../domain/Guest';
 import noop from 'lodash/noop';
-import { renderWithTheme } from '../../../../../test/renderWithTheme';
+import { renderWithProviders } from '../../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('<AddGuestForm />', (): void => {
   it('lets the user input a name.', async (): Promise<void> => {
-    renderWithTheme(<AddGuestForm onSave={ noop } />);
+    renderWithProviders(<AddGuestForm onSave={ noop } />);
 
     userEvent.type(screen.getByLabelText('Name'), 'New Guest Name');
 
@@ -15,7 +15,7 @@ describe('<AddGuestForm />', (): void => {
   });
 
   it('lets the user input a costum.', async (): Promise<void> => {
-    renderWithTheme(<AddGuestForm onSave={ noop } />);
+    renderWithProviders(<AddGuestForm onSave={ noop } />);
 
     userEvent.type(screen.getByLabelText('Kostüm'), 'New Costume Name');
 
@@ -25,7 +25,7 @@ describe('<AddGuestForm />', (): void => {
   it('passes the guests data on submit.', async (): Promise<void> => {
     const onSaveSpy = jest.fn();
 
-    renderWithTheme(<AddGuestForm onSave={ onSaveSpy } />);
+    renderWithProviders(<AddGuestForm onSave={ onSaveSpy } />);
 
     userEvent.type(screen.getByLabelText('Name'), 'New Guest Name');
     userEvent.type(screen.getByLabelText('Kostüm'), 'New Costume Name');

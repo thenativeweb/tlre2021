@@ -1,11 +1,11 @@
 import { createTestGuest } from '../../../domain/createTestGuest';
 import { GuestList } from './GuestList';
-import { renderWithTheme } from '../../../../test/renderWithTheme';
+import { renderWithProviders } from '../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 
 describe('<GuestList />', (): void => {
   it('displays a guest with costume.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <GuestList
         guests={ [
           createTestGuest({ name: 'Selina', costume: 'Catwoman' }),
@@ -19,7 +19,7 @@ describe('<GuestList />', (): void => {
   });
 
   it('shows special message when no guests given.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <GuestList
         guests={ [ ] }
       />
@@ -29,7 +29,7 @@ describe('<GuestList />', (): void => {
   });
 
   it('displays if a guest has no costume.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <GuestList
         guests={ [
           createTestGuest({ name: 'Kim', costume: undefined })

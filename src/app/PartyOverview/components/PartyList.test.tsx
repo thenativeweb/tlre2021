@@ -3,13 +3,13 @@ import { createTestParty } from '../../../domain/createTestParty';
 import noop from 'lodash/noop';
 import { Party } from '../../../domain/Party';
 import { PartyList } from './PartyList';
-import { renderWithTheme } from '../../../../test/renderWithTheme';
+import { renderWithProviders } from '../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('<PartyList />', (): void => {
   it('shows the party details for the given parties.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <PartyList
         onUpdateParty={ noop }
         parties={ [
@@ -30,7 +30,7 @@ describe('<PartyList />', (): void => {
       guests: []
     });
 
-    renderWithTheme(
+    renderWithProviders(
       <PartyList
         onUpdateParty={ onUpdatePartySpy }
         parties={ [

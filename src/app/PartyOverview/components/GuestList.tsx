@@ -1,20 +1,23 @@
 import { Guest } from '../../../domain/Guest';
-import { FunctionComponent, ReactElement } from 'react';
+import { TextContext } from '../../texts/TextContext';
+import { FunctionComponent, ReactElement, useContext } from 'react';
 
 interface GuestListProps {
   guests?: Guest[];
 }
 
 const GuestList: FunctionComponent<GuestListProps> = ({ guests }): ReactElement => {
+  const texts = useContext(TextContext);
+
   if (!guests || guests.length === 0) {
     return (
-      <p>Bisher haben sich noch keine Gäste angemeldet :(</p>);
+      <p>{texts.guestList.noGuests}</p>);
   }
 
   const guestListItems = guests.map((guest, index): ReactElement => {
     const costumeInfo = guest.costume ?
-      `kostümiert als ${guest.costume}` :
-      'kommt unverkleidet';
+      texts.guestList.withCostume(guest.costume) :
+      texts.guestList.noCostum;
 
     return (
       // eslint-disable-next-line react/no-array-index-key
