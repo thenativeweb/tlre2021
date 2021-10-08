@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import React, { FunctionComponent, ReactElement } from 'react';
 
-const Form = styled.form`
+const StyledForm = styled.form`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -11,6 +12,31 @@ const Form = styled.form`
     margin-top: 20px;
   }
 `;
+
+type FormProps = React.FormHTMLAttributes<HTMLFormElement>;
+
+const Form: FunctionComponent<FormProps> = (props): ReactElement => {
+  const { children, onSubmit } = props;
+
+  let onSubmitOverwrite: React.FormEventHandler<HTMLFormElement> | undefined;
+
+  if (onSubmit) {
+    onSubmitOverwrite = (event): void => {
+      event.preventDefault();
+      onSubmit(event);
+    };
+  }
+
+  return (
+    <StyledForm
+      { ...props }
+      onSubmit={ onSubmitOverwrite }
+    >
+      {children}
+    </StyledForm>
+
+  );
+};
 
 export {
   Form
