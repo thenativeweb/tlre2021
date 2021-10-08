@@ -1,3 +1,4 @@
+import { ApiContext } from '../api/ApiContext';
 import { createTestHost } from '../../domain/createTestHost';
 import { createTestParty } from '../../domain/createTestParty';
 import { createTestPartyApi } from '../api/TestPartyApi';
@@ -19,7 +20,11 @@ describe('PartyOverview', (): void => {
       fetchAllParties: async (): Promise<Party[]> => deferred.promise
     });
 
-    renderWithProviders(<PartyOverview partyApi={ testApi } />);
+    renderWithProviders(
+      <ApiContext.Provider value={ testApi }>
+        <PartyOverview />
+      </ApiContext.Provider>
+    );
 
     expect(screen.getByText('Lade Parties...')).toBeInTheDocument();
 
@@ -36,7 +41,11 @@ describe('PartyOverview', (): void => {
       ])
     });
 
-    renderWithProviders(<PartyOverview partyApi={ testApi } />);
+    renderWithProviders(
+      <ApiContext.Provider value={ testApi }>
+        <PartyOverview />
+      </ApiContext.Provider>
+    );
 
     expect(await screen.findByText('Selinas Halloween-Party')).toBeInTheDocument();
     expect(await screen.findByText('Bruces Halloween-Party')).toBeInTheDocument();
@@ -51,14 +60,22 @@ describe('PartyOverview', (): void => {
       }
     });
 
-    renderWithProviders(<PartyOverview partyApi={ testApi } />);
+    renderWithProviders(
+      <ApiContext.Provider value={ testApi }>
+        <PartyOverview />
+      </ApiContext.Provider>
+    );
 
     expect(await screen.findByText('Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...')).toBeInTheDocument();
     jest.restoreAllMocks();
   });
 
   it('shows the addPartyForm after click of the toggle button.', async (): Promise<void> => {
-    renderWithProviders(<PartyOverview partyApi={ createTestPartyApi() } />);
+    renderWithProviders(
+      <ApiContext.Provider value={ createTestPartyApi() }>
+        <PartyOverview />
+      </ApiContext.Provider>
+    );
 
     const addPartyButton = await screen.findByText('Neue Party hinzufügen');
 
@@ -85,7 +102,11 @@ describe('PartyOverview', (): void => {
       }))
     });
 
-    renderWithProviders(<PartyOverview partyApi={ testApi } />);
+    renderWithProviders(
+      <ApiContext.Provider value={ testApi }>
+        <PartyOverview />
+      </ApiContext.Provider>
+    );
 
     // Wait till parties were fetched
     await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));
@@ -112,7 +133,11 @@ describe('PartyOverview', (): void => {
       updateParty: spiedUpdateParty
     });
 
-    renderWithProviders(<PartyOverview partyApi={ testApi } />);
+    renderWithProviders(
+      <ApiContext.Provider value={ testApi }>
+        <PartyOverview />
+      </ApiContext.Provider>
+    );
 
     // Wait till parties were fetched
     await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));

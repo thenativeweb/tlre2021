@@ -1,4 +1,5 @@
 import { AddPartyAccordion } from './components/AddPartyAccordion';
+import { ApiContext } from '../api/ApiContext';
 import { Party } from '../../domain/Party';
 import { PartyApi } from '../api/PartyApi';
 import { PartyList } from './components/PartyList';
@@ -8,15 +9,12 @@ import { UnstoredParty } from '../../domain/UnstoredParty';
 import { addPartyToList, updateParty } from '../partyStateService';
 import React, { FunctionComponent, ReactElement, useContext, useEffect, useState } from 'react';
 
-interface PartyListContainerProps {
-  partyApi: PartyApi;
-}
-
 type ApiState = 'loading' | 'success' | 'error';
 
-const PartyOverview: FunctionComponent<PartyListContainerProps> = ({ partyApi }): ReactElement => {
+const PartyOverview: FunctionComponent = (): ReactElement => {
   const [ parties, setParties ] = useState<Party[]>([]);
   const [ apiState, setApiState ] = useState<ApiState>('loading');
+  const partyApi: PartyApi = useContext(ApiContext);
   const texts = useContext(TextContext);
 
   useEffect((): void => {

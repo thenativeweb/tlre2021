@@ -1,4 +1,3 @@
-import { createFetchPartyApi } from './app/api/FetchPartyApi';
 import { defaultTextContext } from './app/texts/defaultTextContent';
 import { PageLayout } from './layout/PageLayout';
 import { PartyOverview } from './app/PartyOverview/PartyOverview';
@@ -18,7 +17,7 @@ const App = function (): ReactElement {
       <TextContext.Provider value={ defaultTextContext }>
         <GlobalStyles />
         <PageLayout title='Halloween Party Planner'>
-          <PartyOverview partyApi={ createFetchPartyApi() } />
+          <PartyOverview />
         </PageLayout>
       </TextContext.Provider>
     </ThemeProvider>

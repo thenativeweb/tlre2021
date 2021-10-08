@@ -37,7 +37,6 @@ const defaultTextContext = {
   partyList: {
     listLabel: 'Liste aller Parties'
   }
-
 };
 
 export {
