@@ -5,7 +5,7 @@ import { defer } from '../../../test/controllabePromise';
 import { Guest } from '../../domain/Guest';
 import noop from 'lodash/noop';
 import { Party } from '../../domain/Party';
-import { PartyOverviewContainer } from './PartyOverviewContainer';
+import { PartyOverview } from './PartyOverview';
 import { renderWithTheme } from '../../../test/renderWithTheme';
 import { UnstoredParty } from '../../domain/UnstoredParty';
 import userEvent from '@testing-library/user-event';
@@ -19,7 +19,7 @@ describe('PartyOverview', (): void => {
       fetchAllParties: async (): Promise<Party[]> => deferred.promise
     });
 
-    renderWithTheme(<PartyOverviewContainer partyApi={ testApi } />);
+    renderWithTheme(<PartyOverview partyApi={ testApi } />);
 
     expect(screen.getByText('Lade Parties...')).toBeInTheDocument();
 
@@ -36,7 +36,7 @@ describe('PartyOverview', (): void => {
       ])
     });
 
-    renderWithTheme(<PartyOverviewContainer partyApi={ testApi } />);
+    renderWithTheme(<PartyOverview partyApi={ testApi } />);
 
     expect(await screen.findByText('Selinas Halloween-Party')).toBeInTheDocument();
     expect(await screen.findByText('Bruces Halloween-Party')).toBeInTheDocument();
@@ -51,14 +51,14 @@ describe('PartyOverview', (): void => {
       }
     });
 
-    renderWithTheme(<PartyOverviewContainer partyApi={ testApi } />);
+    renderWithTheme(<PartyOverview partyApi={ testApi } />);
 
     expect(await screen.findByText('Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...')).toBeInTheDocument();
     jest.restoreAllMocks();
   });
 
   it('shows the addPartyForm after click of the toggle button.', async (): Promise<void> => {
-    renderWithTheme(<PartyOverviewContainer partyApi={ createTestPartyApi() } />);
+    renderWithTheme(<PartyOverview partyApi={ createTestPartyApi() } />);
 
     const addPartyButton = await screen.findByText('Neue Party hinzufügen');
 
@@ -85,7 +85,7 @@ describe('PartyOverview', (): void => {
       }))
     });
 
-    renderWithTheme(<PartyOverviewContainer partyApi={ testApi } />);
+    renderWithTheme(<PartyOverview partyApi={ testApi } />);
 
     // Wait till parties were fetched
     await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));
@@ -112,7 +112,7 @@ describe('PartyOverview', (): void => {
       updateParty: spiedUpdateParty
     });
 
-    renderWithTheme(<PartyOverviewContainer partyApi={ testApi } />);
+    renderWithTheme(<PartyOverview partyApi={ testApi } />);
 
     // Wait till parties were fetched
     await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));

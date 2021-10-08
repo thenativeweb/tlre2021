@@ -1,6 +1,6 @@
 import { createFetchPartyApi } from './app/api/FetchPartyApi';
 import { PageLayout } from './layout/PageLayout';
-import { PartyOverviewContainer } from './app/PartyOverview/PartyOverviewContainer';
+import { PartyOverview } from './app/PartyOverview/PartyOverview';
 import { ReactElement } from 'react';
 import { Theme } from './layout/Theme';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -15,7 +15,7 @@ const App = function (): ReactElement {
     <ThemeProvider theme={ Theme }>
       <GlobalStyles />
       <PageLayout title='Halloween Party Planner'>
-        <PartyOverviewContainer partyApi={ createFetchPartyApi() } />
+        <PartyOverview partyApi={ createFetchPartyApi() } />
       </PageLayout>
     </ThemeProvider>
   );

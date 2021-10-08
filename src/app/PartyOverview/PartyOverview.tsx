@@ -1,39 +1,65 @@
-import { Button } from '../../components/Button';
+import { AddPartyAccordion } from './components/AddPartyAccordion';
 import { Party } from '../../domain/Party';
-import { PartyForm } from './components/forms/PartyForm';
+import { PartyApi } from '../api/PartyApi';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
 import { UnstoredParty } from '../../domain/UnstoredParty';
-import React, { FunctionComponent, ReactElement, useState } from 'react';
+import { addPartyToList, updateParty } from '../partyStateService';
+import React, { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 
-interface PartyOverviewProps {
-  parties: Party[];
-  onAddParty: (newParty: UnstoredParty) => void;
-  onUpdateParty: (updatedParty: Party) => void;
+interface PartyListContainerProps {
+  partyApi: PartyApi;
 }
 
-const PartyOverview: FunctionComponent<PartyOverviewProps> = ({ parties, onAddParty, onUpdateParty }): ReactElement => {
-  const [ showPartyForm, setShowPartyForm ] = useState<boolean>(false);
+type ApiState = 'loading' | 'success' | 'error';
 
-  const toggleShowPartyForm = (): void => {
-    setShowPartyForm((currentState): boolean => !currentState);
+const PartyOverview: FunctionComponent<PartyListContainerProps> = ({ partyApi }): ReactElement => {
+  const [ parties, setParties ] = useState<Party[]>([]);
+  const [ apiState, setApiState ] = useState<ApiState>('loading');
+
+  useEffect((): void => {
+    partyApi.fetchAllParties().
+      then((loadedParties): void => {
+        setParties(loadedParties);
+        setApiState('success');
+      }).
+      catch((ex): void => {
+        setApiState('error');
+        // eslint-disable-next-line no-console
+        console.error('Error while fetching Parties.', ex);
+      });
+  }, [ partyApi ]);
+
+  const handlePartyUpdate = async (updatedParty: Party): Promise<void> => {
+    const storedUpdatedParty = await partyApi.updateParty(updatedParty);
+
+    setParties(updateParty(parties, storedUpdatedParty));
   };
 
   const handleNewParty = async (newParty: UnstoredParty): Promise<void> => {
-    toggleShowPartyForm();
-    onAddParty(newParty);
+    const storedParty = await partyApi.addNewParty(newParty);
+
+    setParties((currentParties): Party[] => addPartyToList(currentParties, storedParty));
   };
+
+  if (apiState === 'loading') {
+    return (<p>Lade Parties...</p>);
+  }
+
+  if (apiState === 'error') {
+    return (<p>Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...</p>);
+  }
 
   return (
     <React.Fragment>
       <PartyNumbers parties={ parties } />
-      <Button onClick={ toggleShowPartyForm }>Neue Party hinzufügen</Button>
-      {showPartyForm && <PartyForm onPartySave={ handleNewParty } />}
-      <PartyList parties={ parties } onUpdateParty={ onUpdateParty } />
+      <AddPartyAccordion onPartySave={ handleNewParty } />
+      <PartyList parties={ parties } onUpdateParty={ handlePartyUpdate } />
     </React.Fragment>
   );
 };
 
 export {
   PartyOverview
+
 };
