@@ -1,14 +1,14 @@
-import { ApiContext } from './ApiContext';
+import { ApiContext } from '../PartyApi/ApiContext';
 import { Party } from '../../../domain/Party';
-import { PartyApi } from './PartyApi';
+import { PartyApi } from '../PartyApi/PartyApi';
 import { UnstoredParty } from '../../../domain/UnstoredParty';
 import { addPartyToList, updatePartyInList } from '../../partyStateService';
 import { useContext, useEffect, useState } from 'react';
 
-type ApiState = 'loading' | 'success' | 'error';
+type ApiStatus = 'loading' | 'success' | 'error';
 
 interface PartyApiHook {
-  apiState: ApiState;
+  status: ApiStatus;
   error?: Error;
   parties: Party[];
   addParty: (newParty: UnstoredParty) => void;
@@ -18,11 +18,11 @@ interface PartyApiHook {
 const usePartyApi = (): PartyApiHook => {
   const partyApi: PartyApi = useContext(ApiContext);
   const [ parties, setParties ] = useState<Party[]>([]);
-  const [ apiState, setApiState ] = useState<ApiState>('loading');
+  const [ status, setStatus ] = useState<ApiStatus>('loading');
   const [ error, setError ] = useState<undefined | Error>();
 
   const handleApiError = (ex: Error): void => {
-    setApiState('error');
+    setStatus('error');
     setError(ex);
   };
 
@@ -30,7 +30,7 @@ const usePartyApi = (): PartyApiHook => {
     partyApi.fetchAllParties().
       then((loadedParties): void => {
         setParties(loadedParties);
-        setApiState('success');
+        setStatus('success');
       }).
       catch(handleApiError);
   }, [ partyApi ]);
@@ -51,7 +51,7 @@ const usePartyApi = (): PartyApiHook => {
 
   return {
     parties,
-    apiState,
+    status,
     error,
     addParty,
     updateParty
@@ -63,6 +63,6 @@ export {
 };
 
 export type {
-  ApiState,
+  ApiStatus,
   PartyApiHook
 };

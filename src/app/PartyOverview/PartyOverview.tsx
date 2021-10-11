@@ -2,18 +2,40 @@ import { AddPartyAccordion } from './components/AddPartyAccordion';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
 import { TextContext } from '../texts/TextContext';
-import { usePartyApi } from '../api/custom/usePartyApi';
+import { useAddParty } from '../api/reactQuery/useAddParty';
+import { useFetchParties } from '../api/reactQuery/useFetchParties';
+import { useUpdateParty } from '../api/reactQuery/useUpdateParty';
 import React, { FunctionComponent, ReactElement, useContext } from 'react';
+
+// API HOOKS: CUSTOM
+// import { usePartyApi } from '../api/customHooks/usePartyApi';
+// API HOOKS: CUSTOM
 
 const PartyOverview: FunctionComponent = (): ReactElement => {
   const texts = useContext(TextContext);
-  const { apiState, parties, addParty, updateParty } = usePartyApi();
 
-  if (apiState === 'loading') {
+  // You can swtich between both Api Hook Implemenations "CUSTOM" or "REACT-QUERY".
+  // You'll have to comment out the other method.
+  // Tests will still pass.
+
+  // API HOOKS: CUSTOM
+  // const { parties, addParty, status, updateParty } = usePartyApi();
+
+  // API HOOKS: CUSTOM
+
+  // API HOOKS: REACT-QUERY
+  const { data, status } = useFetchParties();
+  const parties = data ?? [];
+  const updateParty = useUpdateParty();
+  const addParty = useAddParty();
+
+  // API HOOKS: REACT-QUERY
+
+  if (status === 'loading') {
     return (<p>{texts.partyOverview.loading}</p>);
   }
 
-  if (apiState === 'error') {
+  if (status === 'error') {
     return (<p>{texts.partyOverview.error}</p>);
   }
 

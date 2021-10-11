@@ -1,25 +1,37 @@
-import { ApiContext } from '../api/custom/ApiContext';
+import { ApiContext } from '../api/PartyApi/ApiContext';
 import { createTestHost } from '../../domain/createTestHost';
 import { createTestParty } from '../../domain/createTestParty';
-import { createTestPartyApi } from '../api/custom/TestPartyApi';
+import { createTestPartyApi } from '../api/PartyApi/TestPartyApi';
 import { defer } from '../../../test/controllabePromise';
 import { Guest } from '../../domain/Guest';
 import noop from 'lodash/noop';
 import { Party } from '../../domain/Party';
-import { PartyApi } from '../api/custom/PartyApi';
+import { PartyApi } from '../api/PartyApi/PartyApi';
 import { PartyOverview } from './PartyOverview';
 import { renderWithProviders } from '../../../test/renderWithProviders';
 import { UnstoredParty } from '../../domain/UnstoredParty';
 import userEvent from '@testing-library/user-event';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 describe('PartyOverview', (): void => {
-  const renderWithApi = (testApi: PartyApi): void =>
-    renderWithProviders(
+  const renderWithApi = (testApi: PartyApi): void => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: 0
+        }
+      }
+    });
+
+    return renderWithProviders(
       <ApiContext.Provider value={ testApi }>
-        <PartyOverview />
+        <QueryClientProvider client={ queryClient }>
+          <PartyOverview />
+        </QueryClientProvider>
       </ApiContext.Provider>
     );
+  };
 
   // We only test the state-toggle here. All other functions are tested in the PartyOverviewContainer
   it('shows loading screen until fetchAllParties returns.', async (): Promise<void> => {

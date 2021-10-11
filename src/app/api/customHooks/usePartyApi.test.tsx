@@ -1,12 +1,12 @@
-import { ApiContext } from './ApiContext';
+import { ApiContext } from '../PartyApi/ApiContext';
 import { createTestHost } from '../../../domain/createTestHost';
 import { createTestParty } from '../../../domain/createTestParty';
-import { createTestPartyApi } from './TestPartyApi';
+import { createTestPartyApi } from '../PartyApi/TestPartyApi';
 import { Party } from '../../../domain/Party';
-import { PartyApi } from './PartyApi';
+import { PartyApi } from '../PartyApi/PartyApi';
 import { UnstoredParty } from '../../../domain/UnstoredParty';
 import { act, renderHook } from '@testing-library/react-hooks';
-import { ApiState, PartyApiHook, usePartyApi } from './usePartyApi';
+import { ApiStatus, PartyApiHook, usePartyApi } from './usePartyApi';
 import { FunctionComponent, ReactElement } from 'react';
 
 const createWrapper = (testApi: PartyApi): FunctionComponent => ({ children }): ReactElement => (<ApiContext.Provider value={ testApi }>{children}</ApiContext.Provider>);
@@ -30,9 +30,9 @@ describe('usePartyApi', (): void => {
     }));
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
-    const expectedApiState: ApiState = 'loading';
+    const expectedApiState: ApiStatus = 'loading';
 
-    expect(result.current.apiState).toEqual(expectedApiState);
+    expect(result.current.status).toEqual(expectedApiState);
 
     // Cleanly wait for the useEffect hook to finish to avoid errors in tests
     await waitForNextUpdate();
@@ -47,9 +47,9 @@ describe('usePartyApi', (): void => {
 
     await waitForNextUpdate();
 
-    const expectedApiState: ApiState = 'success';
+    const expectedApiState: ApiStatus = 'success';
 
-    expect(result.current.apiState).toEqual(expectedApiState);
+    expect(result.current.status).toEqual(expectedApiState);
   });
 
   it('on addParty, updates the parties with the new party as soon as the api returns.', async (): Promise<void> => {
@@ -118,9 +118,9 @@ describe('usePartyApi', (): void => {
 
     await waitForNextUpdate();
 
-    const expectedApiState: ApiState = 'error';
+    const expectedApiState: ApiStatus = 'error';
 
-    expect(result.current.apiState).toEqual(expectedApiState);
+    expect(result.current.status).toEqual(expectedApiState);
     expect(result.current.error).toEqual(error);
   });
 
@@ -141,9 +141,9 @@ describe('usePartyApi', (): void => {
 
     await waitForNextUpdate();
 
-    const expectedApiState: ApiState = 'error';
+    const expectedApiState: ApiStatus = 'error';
 
-    expect(result.current.apiState).toEqual(expectedApiState);
+    expect(result.current.status).toEqual(expectedApiState);
     expect(result.current.error).toEqual(error);
   });
 
@@ -164,9 +164,9 @@ describe('usePartyApi', (): void => {
 
     await waitForNextUpdate();
 
-    const expectedApiState: ApiState = 'error';
+    const expectedApiState: ApiStatus = 'error';
 
-    expect(result.current.apiState).toEqual(expectedApiState);
+    expect(result.current.status).toEqual(expectedApiState);
     expect(result.current.error).toEqual(error);
   });
 });
