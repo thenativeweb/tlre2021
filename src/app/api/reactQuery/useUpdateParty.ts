@@ -25,7 +25,7 @@ const useUpdateParty = (): UpdateParty => {
     }
   });
 
-  return (updatedParty: Party): void => mutation.mutate(updatedParty);
+  return mutation.mutate;
 };
 
 export {

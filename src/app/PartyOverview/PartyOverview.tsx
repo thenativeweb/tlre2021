@@ -11,6 +11,8 @@ import React, { FunctionComponent, ReactElement, useContext } from 'react';
 // import { usePartyApi } from '../api/customHooks/usePartyApi';
 // API HOOKS: CUSTOM
 
+const MemoizedPartyList = React.memo(PartyList);
+
 const PartyOverview: FunctionComponent = (): ReactElement => {
   const texts = useContext(TextContext);
 
@@ -25,9 +27,9 @@ const PartyOverview: FunctionComponent = (): ReactElement => {
 
   // API HOOKS: REACT-QUERY
   const { data, status } = useFetchParties();
-  const parties = data ?? [];
   const updateParty = useUpdateParty();
   const addParty = useAddParty();
+  const parties = data ?? [];
 
   // API HOOKS: REACT-QUERY
 
@@ -43,7 +45,7 @@ const PartyOverview: FunctionComponent = (): ReactElement => {
     <React.Fragment>
       <PartyNumbers parties={ parties } />
       <AddPartyAccordion onPartySave={ addParty } />
-      <PartyList parties={ parties } onUpdateParty={ updateParty } />
+      <MemoizedPartyList parties={ parties } onUpdateParty={ updateParty } />
     </React.Fragment>
   );
 };

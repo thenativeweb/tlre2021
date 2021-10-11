@@ -23,8 +23,7 @@ const updatePartyInList = (parties: Party[], updatedParty: Party): Party[] =>
     return party;
   });
 
-const sumOfGuests = (parties: Party[]): number =>
-  parties.reduce((guestCount, party): number => guestCount + party.guests.length, 0);
+const sumOfGuests = (parties: Party[]): number => parties.reduce((guestCount, party): number => guestCount + party.guests.length, 0);
 
 export {
   addGuestToParty,
