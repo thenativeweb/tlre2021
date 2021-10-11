@@ -1,6 +1,7 @@
-import { generateId } from '../app/generateId';
+import { generateId } from '../../app/generateId';
 import isFunction from 'lodash/isFunction';
-import React, { FunctionComponent, ReactElement, useState } from 'react';
+import { useToggle } from './useToggle';
+import React, { FunctionComponent, ReactElement } from 'react';
 
 type AccordionStatus = 'open' | 'closed';
 
@@ -31,10 +32,10 @@ const Accordion: FunctionComponent<AccordtionProps> = ({
   content,
   initiallyOpened = false
 }): ReactElement => {
-  const [ isOpen, setIsOpen ] = useState<boolean>(initiallyOpened);
+  const { setToggleState, toggle, toggleState } = useToggle(initiallyOpened);
 
   const onClick = (): void => {
-    setIsOpen((currentState): boolean => !currentState);
+    toggle();
   };
 
   const contentId = generateId('accordion-content');
@@ -43,15 +44,15 @@ const Accordion: FunctionComponent<AccordtionProps> = ({
   const renderedTrigger = trigger({
     id: triggerId,
     onClick,
-    status: getStatus(isOpen),
-    'aria-expanded': isOpen,
+    status: getStatus(toggleState),
+    'aria-expanded': toggleState,
     'aria-controls': contentId
   });
 
   const getContent = (): ReactElement | null => {
     if (isFunctionComponent(content)) {
       return content({
-        closeContent: (): void => setIsOpen(false)
+        closeContent: (): void => setToggleState(false)
       });
     }
 
@@ -61,7 +62,7 @@ const Accordion: FunctionComponent<AccordtionProps> = ({
   return (
     <React.Fragment>
       {renderedTrigger}
-      { isOpen &&
+      { toggleState &&
         <div id={ contentId } role='region' aria-labelledby={ triggerId }>
           { getContent() }
         </div>}

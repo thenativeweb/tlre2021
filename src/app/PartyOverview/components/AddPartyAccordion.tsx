@@ -1,4 +1,4 @@
-import { Accordion } from '../../../components/Accordion';
+import { Accordion } from '../../../components/Accordion/Accordion';
 import { Button } from '../../../components/Button';
 import { PartyForm } from './forms/PartyForm';
 import { UnstoredParty } from '../../../domain/UnstoredParty';

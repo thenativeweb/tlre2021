@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "4.3.1",
+    "@testing-library/react-hooks": "7.0.2",
     "@types/json-server": "0.14.4",
     "concurrently": "6.3.0",
     "cross-env": "7.0.3",
