@@ -1,46 +1,13 @@
 import { AddPartyAccordion } from './components/AddPartyAccordion';
-import { ApiContext } from '../api/ApiContext';
-import { Party } from '../../domain/Party';
-import { PartyApi } from '../api/PartyApi';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
 import { TextContext } from '../texts/TextContext';
-import { UnstoredParty } from '../../domain/UnstoredParty';
-import { addPartyToList, updateParty } from '../partyStateService';
-import React, { FunctionComponent, ReactElement, useContext, useEffect, useState } from 'react';
-
-type ApiState = 'loading' | 'success' | 'error';
+import { usePartyApi } from '../api/usePartyApi';
+import React, { FunctionComponent, ReactElement, useContext } from 'react';
 
 const PartyOverview: FunctionComponent = (): ReactElement => {
-  const [ parties, setParties ] = useState<Party[]>([]);
-  const [ apiState, setApiState ] = useState<ApiState>('loading');
-  const partyApi: PartyApi = useContext(ApiContext);
   const texts = useContext(TextContext);
-
-  useEffect((): void => {
-    partyApi.fetchAllParties().
-      then((loadedParties): void => {
-        setParties(loadedParties);
-        setApiState('success');
-      }).
-      catch((ex): void => {
-        setApiState('error');
-        // eslint-disable-next-line no-console
-        console.error('Error while fetching Parties.', ex);
-      });
-  }, [ partyApi ]);
-
-  const handlePartyUpdate = async (updatedParty: Party): Promise<void> => {
-    const storedUpdatedParty = await partyApi.updateParty(updatedParty);
-
-    setParties(updateParty(parties, storedUpdatedParty));
-  };
-
-  const handleNewParty = async (newParty: UnstoredParty): Promise<void> => {
-    const storedParty = await partyApi.addNewParty(newParty);
-
-    setParties((currentParties): Party[] => addPartyToList(currentParties, storedParty));
-  };
+  const { apiState, parties, addParty, updateParty } = usePartyApi();
 
   if (apiState === 'loading') {
     return (<p>{texts.partyOverview.loading}</p>);
@@ -53,8 +20,8 @@ const PartyOverview: FunctionComponent = (): ReactElement => {
   return (
     <React.Fragment>
       <PartyNumbers parties={ parties } />
-      <AddPartyAccordion onPartySave={ handleNewParty } />
-      <PartyList parties={ parties } onUpdateParty={ handlePartyUpdate } />
+      <AddPartyAccordion onPartySave={ addParty } />
+      <PartyList parties={ parties } onUpdateParty={ updateParty } />
     </React.Fragment>
   );
 };

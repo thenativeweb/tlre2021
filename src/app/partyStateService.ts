@@ -14,7 +14,7 @@ const addPartyToList = (parties: Party[], newParty: Party): Party[] => [
   newParty
 ];
 
-const updateParty = (parties: Party[], updatedParty: Party): Party[] =>
+const updatePartyInList = (parties: Party[], updatedParty: Party): Party[] =>
   parties.map((party): Party => {
     if (party.id === updatedParty.id) {
       return updatedParty;
@@ -29,6 +29,6 @@ const sumOfGuests = (parties: Party[]): number =>
 export {
   addGuestToParty,
   addPartyToList,
-  updateParty,
+  updatePartyInList,
   sumOfGuests
 };
