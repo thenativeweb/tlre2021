@@ -1,68 +1,52 @@
 import { AvatarSelect } from './AvatarSelect';
 import { Button } from '../../../../components/Button';
 import { Form } from '../../../../components/Form';
-import { Host } from '../../../../domain/Host';
 import { TextArea } from '../../../../components/TextArea';
 import { TextContext } from '../../../texts/TextContext';
 import { TextInput } from '../../../../components/TextInput';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
-import { ChangeEventHandler, FunctionComponent, ReactElement, useContext, useState } from 'react';
+import { ChangeEventHandler, FunctionComponent, ReactElement, useContext, useReducer } from 'react';
+import { initialState, partyFormReducer } from './partyFormReducer';
 
 interface PartyFormProps {
   onPartySave: (newParty: UnstoredParty) => void;
 }
 
-const createEmptyHost = (): Host => ({
-  name: ''
-});
-
 const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave }): ReactElement => {
-  const [ host, setHost ] = useState<Host>(createEmptyHost());
-  const [ description, setDescription ] = useState<string>('');
   const texts = useContext(TextContext);
+  const [ state, dispatch ] = useReducer(partyFormReducer, initialState);
 
   const handleHostNameChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
-    setHost({
-      ...host,
-      name: event.target.value
-    });
+    dispatch({ type: 'SET_HOST_NAME', body: event.target.value });
   };
 
   const handleAvatarChange = (newAvatar: string): void => {
-    setHost({
-      ...host,
-      avatarUrl: newAvatar
-    });
+    dispatch({ type: 'SET_AVATAR', body: newAvatar });
   };
 
   const handleDescriptionChange: ChangeEventHandler<HTMLTextAreaElement> = (event): void => {
-    setDescription(event.target.value);
+    dispatch({ type: 'SET_DESCRIPTION', body: event.target.value });
   };
 
   const handlePartySave = (): void => {
-    onPartySave({
-      host,
-      description
-    });
-
-    setHost(createEmptyHost());
-    setDescription('');
+    onPartySave(state);
+    dispatch({ type: 'RESET_FORM' });
   };
 
   return (
     <Form>
       <TextInput
         label={ texts.addPartyForm.hostNameInputLabel }
-        value={ host.name }
+        value={ state.host.name }
         onChange={ handleHostNameChange }
       />
       <AvatarSelect
         onChange={ handleAvatarChange }
-        value={ host.avatarUrl }
+        value={ state.host.avatarUrl }
       />
       <TextArea
         label={ texts.addPartyForm.descriptionLabel }
-        value={ description }
+        value={ state.description }
         onChange={ handleDescriptionChange }
       />
       <Button type='button' onClick={ handlePartySave }>{texts.addPartyForm.saveButtonLabel}</Button>
