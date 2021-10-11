@@ -1,11 +1,12 @@
-import { ApiContext } from '../api/ApiContext';
+import { ApiContext } from '../api/custom/ApiContext';
 import { createTestHost } from '../../domain/createTestHost';
 import { createTestParty } from '../../domain/createTestParty';
-import { createTestPartyApi } from '../api/TestPartyApi';
+import { createTestPartyApi } from '../api/custom/TestPartyApi';
 import { defer } from '../../../test/controllabePromise';
 import { Guest } from '../../domain/Guest';
 import noop from 'lodash/noop';
 import { Party } from '../../domain/Party';
+import { PartyApi } from '../api/custom/PartyApi';
 import { PartyOverview } from './PartyOverview';
 import { renderWithProviders } from '../../../test/renderWithProviders';
 import { UnstoredParty } from '../../domain/UnstoredParty';
@@ -13,6 +14,13 @@ import userEvent from '@testing-library/user-event';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 describe('PartyOverview', (): void => {
+  const renderWithApi = (testApi: PartyApi): void =>
+    renderWithProviders(
+      <ApiContext.Provider value={ testApi }>
+        <PartyOverview />
+      </ApiContext.Provider>
+    );
+
   // We only test the state-toggle here. All other functions are tested in the PartyOverviewContainer
   it('shows loading screen until fetchAllParties returns.', async (): Promise<void> => {
     const deferred = defer<Party[]>();
@@ -20,12 +28,7 @@ describe('PartyOverview', (): void => {
       fetchAllParties: async (): Promise<Party[]> => deferred.promise
     });
 
-    renderWithProviders(
-      <ApiContext.Provider value={ testApi }>
-        <PartyOverview />
-      </ApiContext.Provider>
-    );
-
+    renderWithApi(testApi);
     expect(screen.getByText('Lade Parties...')).toBeInTheDocument();
 
     deferred.resolve([]);
@@ -41,11 +44,7 @@ describe('PartyOverview', (): void => {
       ])
     });
 
-    renderWithProviders(
-      <ApiContext.Provider value={ testApi }>
-        <PartyOverview />
-      </ApiContext.Provider>
-    );
+    renderWithApi(testApi);
 
     expect(await screen.findByText('Selinas Halloween-Party')).toBeInTheDocument();
     expect(await screen.findByText('Bruces Halloween-Party')).toBeInTheDocument();
@@ -60,22 +59,14 @@ describe('PartyOverview', (): void => {
       }
     });
 
-    renderWithProviders(
-      <ApiContext.Provider value={ testApi }>
-        <PartyOverview />
-      </ApiContext.Provider>
-    );
+    renderWithApi(testApi);
 
     expect(await screen.findByText('Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...')).toBeInTheDocument();
     jest.restoreAllMocks();
   });
 
   it('shows the addPartyForm after click of the toggle button.', async (): Promise<void> => {
-    renderWithProviders(
-      <ApiContext.Provider value={ createTestPartyApi() }>
-        <PartyOverview />
-      </ApiContext.Provider>
-    );
+    renderWithApi(createTestPartyApi());
 
     const addPartyButton = await screen.findByText('Neue Party hinzufügen');
 
@@ -102,11 +93,7 @@ describe('PartyOverview', (): void => {
       }))
     });
 
-    renderWithProviders(
-      <ApiContext.Provider value={ testApi }>
-        <PartyOverview />
-      </ApiContext.Provider>
-    );
+    renderWithApi(testApi);
 
     // Wait till parties were fetched
     await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));
@@ -133,11 +120,7 @@ describe('PartyOverview', (): void => {
       updateParty: spiedUpdateParty
     });
 
-    renderWithProviders(
-      <ApiContext.Provider value={ testApi }>
-        <PartyOverview />
-      </ApiContext.Provider>
-    );
+    renderWithApi(testApi);
 
     // Wait till parties were fetched
     await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));

@@ -1,10 +1,10 @@
 import { ApiContext } from './ApiContext';
-import { createTestHost } from '../../domain/createTestHost';
-import { createTestParty } from '../../domain/createTestParty';
+import { createTestHost } from '../../../domain/createTestHost';
+import { createTestParty } from '../../../domain/createTestParty';
 import { createTestPartyApi } from './TestPartyApi';
-import { Party } from '../../domain/Party';
+import { Party } from '../../../domain/Party';
 import { PartyApi } from './PartyApi';
-import { UnstoredParty } from '../../domain/UnstoredParty';
+import { UnstoredParty } from '../../../domain/UnstoredParty';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { ApiState, PartyApiHook, usePartyApi } from './usePartyApi';
 import { FunctionComponent, ReactElement } from 'react';

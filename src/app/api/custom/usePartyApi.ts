@@ -1,8 +1,8 @@
 import { ApiContext } from './ApiContext';
-import { Party } from '../../domain/Party';
+import { Party } from '../../../domain/Party';
 import { PartyApi } from './PartyApi';
-import { UnstoredParty } from '../../domain/UnstoredParty';
-import { addPartyToList, updatePartyInList } from '../partyStateService';
+import { UnstoredParty } from '../../../domain/UnstoredParty';
+import { addPartyToList, updatePartyInList } from '../../partyStateService';
 import { useContext, useEffect, useState } from 'react';
 
 type ApiState = 'loading' | 'success' | 'error';

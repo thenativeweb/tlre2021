@@ -2,7 +2,7 @@ import { AddPartyAccordion } from './components/AddPartyAccordion';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
 import { TextContext } from '../texts/TextContext';
-import { usePartyApi } from '../api/usePartyApi';
+import { usePartyApi } from '../api/custom/usePartyApi';
 import React, { FunctionComponent, ReactElement, useContext } from 'react';
 
 const PartyOverview: FunctionComponent = (): ReactElement => {
