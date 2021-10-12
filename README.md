@@ -1,46 +1,85 @@
-# Getting Started with Create React App
+# Reactober
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Dieses Repository enthält den Code und die Müsterlösungen des in den [Reactober-Webinaren von the native web](https://www.thenativeweb.io/techlounge/reactober) entwickelten **Halloween Party Planner**.
 
-## Available Scripts
+## Tags der Tracks
 
-In the project directory, you can run:
+Die unterschiedlichen Code-Stände der jeweiligen Tracks und Folgen sind mit den folgenden Tags versehen:
 
-### `npm start`
+| Track      | Folge                                            | Tag                                                                  |
+| ---------- | ------------------------------------------------ | -------------------------------------------------------------------- |
+| Einführung | 03: Qualitätssicherung                           | <image src='./docs/git-tag-icon.png' height="15px"> `einfuehrung`    |
+| Deep-Dive  | **vor** 01: Architektur<br/> (gedacht als Start) | <image src='./docs/git-tag-icon.png' height="15px"> `deepdive-start` |
+| Deep-Dive  | 01: Architektur                                  | <image src='./docs/git-tag-icon.png' height="15px"> `deepdive-01`    |
+| Deep-Dive  | 02: Plugins                                      | <image src='./docs/git-tag-icon.png' height="15px"> `deepdive-02`    |
+| Deep-Dive  | 03: Golive<br/> (finaler Code-Stand)             | <image src='./docs/git-tag-icon.png' height="15px"> `deepdive-03`    |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Diese können wie folgt ausgecheckt werden:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```shell
+$ git checkout <tag-name>
+```
 
-### `npm test`
+Besipiel um den Einführungskurs auszuchecken:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```shell
+$ git checkout einfuehrung
+```
 
-### `npm run build`
+*Hinweis: Da der Einführungskurs pro Folge im wesentlichen nur Code hinzuaddiert, ist dieser nicht pro Folge unterteilt sondern als gesamte Musterlösung getagged.*
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Systemvorraussetzungen
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [NodeJS](https://nodejs.org/en/) Version 14 (oder höher)
+- [npm](https://www.npmjs.com/) Version 6 (oder höher) - wird mit NodeJS automatisch mitinstalliert
 
-### `npm run eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```shell
+$ npm install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Dieser Befehl muss einmalig bzw. **immer nach dem Auschecken eines Tags** durchgeführt werden, um die jeweiligen Abhängigkeiten korrekt zu installieren.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Ausführung
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Das Projekt basiert auf dem Tool [Create React App](https://github.com/facebook/create-react-app).
 
-## Learn More
+Die folgenden Befehle sind möglich:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `$ npm start`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Startet sowohl das Frontend als auch das Mockbackend. Diese sind dann unter den folgenden Adressen erreichbar:
+
+- Frontend: <http://localhost:3000>
+- Backend: <http://localhost:3001>
+
+Die App wird bei Veränderungen im Code **automatisch neu geladen.**
+
+### `$ npm test`
+
+Führt die Tests mit [jest](https://jestjs.io/) im so genannten *watch-mode* aus.
+
+Bei diesem werden nur die Dateien getestet, an denen sich seit dem letzten `git commit` etwas geändert hat. Bei Änderungen im Source-Code werden die Tests erneut ausgeführt.
+
+Mehr Infos (leider nur auf Englisch) finden sich in der `create-react-app`-Dokumentation unter [running tests](https://facebook.github.io/create-react-app/docs/running-tests).
+
+### `$ npm run build`
+
+Erstellt einen Production-Build des Frontends im `build`-Verzeichnis.
+
+Mehr Infos (ebenfalls nur auf Englisch) finden sich `create-react-app`-Dokumentation unter [deployment](https://facebook.github.io/create-react-app/docs/deployment).
+
+### `npm run lint`
+
+Führt die statische code Analyse mit [eslint](https://eslint.org/) und im wesentlichen anhand der [eslint-config-es](https://github.com/thenativeweb/eslint-config-es) durch.
+
+## Hinweis: Overengineering
+
+Diese App ist komplett [Overengineered](https://de.wikipedia.org/wiki/Overengineering).
+
+Sie dient dazu wesentliche und teils fortgeschrittene Konzepte von React-Applikationen und Praktiken anhand sehr einfacher Beispiele zu zeigen. Dementsprechend sind simple Anforderungen meistens deutlich komplexer umgesetzt, als das notwendig wäre.
+
+**Die App und der Code sollten daher nicht als Blaupause für andere React-Applikationen dienen. Der beste Code ist der simpelste, der die aktuellen Anforderungen erfüllt!**
