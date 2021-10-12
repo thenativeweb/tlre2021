@@ -1,11 +1,11 @@
 import { AddPartyAccordion } from './components/AddPartyAccordion';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
-import { TextContext } from '../texts/TextContext';
 import { useAddParty } from '../api/reactQuery/useAddParty';
 import { useFetchParties } from '../api/reactQuery/useFetchParties';
+import { useText } from '../texts/useText';
 import { useUpdateParty } from '../api/reactQuery/useUpdateParty';
-import React, { FunctionComponent, ReactElement, useContext } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 
 // API HOOKS: CUSTOM
 // import { usePartyApi } from '../api/customHooks/usePartyApi';
@@ -14,7 +14,7 @@ import React, { FunctionComponent, ReactElement, useContext } from 'react';
 const MemoizedPartyList = React.memo(PartyList);
 
 const PartyOverview: FunctionComponent = (): ReactElement => {
-  const texts = useContext(TextContext);
+  const { texts } = useText();
 
   // You can swtich between both Api Hook Implemenations "CUSTOM" or "REACT-QUERY".
   // You'll have to comment out the other method.

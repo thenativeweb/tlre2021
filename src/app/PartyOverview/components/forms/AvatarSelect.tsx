@@ -1,6 +1,6 @@
 import { Select } from '../../../../components/Select';
-import { TextContext } from '../../../texts/TextContext';
-import { ChangeEventHandler, FunctionComponent, ReactElement, useContext } from 'react';
+import { useText } from '../../../texts/useText';
+import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
 
 interface AvatarSelectProps {
   onChange: (selectedAvatarUrl: string) => void;
@@ -11,7 +11,7 @@ const AvatarSelect: FunctionComponent<AvatarSelectProps> = ({
   onChange,
   value
 }): ReactElement => {
-  const texts = useContext(TextContext);
+  const { texts } = useText();
   const handleAvatarChange: ChangeEventHandler<HTMLSelectElement> = (event): void => {
     onChange(event.target.value);
   };

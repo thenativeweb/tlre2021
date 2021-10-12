@@ -1,5 +1,5 @@
-import { TextContext } from '../../texts/TextContext';
-import React, { FunctionComponent, ReactElement, useContext } from 'react';
+import { useText } from '../../texts/useText';
+import React, { FunctionComponent, ReactElement } from 'react';
 
 interface HostInfoProps {
   name: string;
@@ -7,7 +7,7 @@ interface HostInfoProps {
 }
 
 const HostInfo: FunctionComponent<HostInfoProps> = function ({ name, avatarUrl }): ReactElement {
-  const texts = useContext(TextContext);
+  const { texts } = useText();
 
   return (
     <React.Fragment>

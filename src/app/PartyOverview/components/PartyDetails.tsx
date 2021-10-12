@@ -9,8 +9,8 @@ import { HostInfo } from './HostInfo';
 import { Party } from '../../../domain/Party';
 import { PartyDescription } from './PartyDescription';
 import { SubHeadline } from '../../../components/SubHeadline';
-import { TextContext } from '../../texts/TextContext';
-import { FunctionComponent, ReactElement, useContext } from 'react';
+import { useText } from '../../texts/useText';
+import { FunctionComponent, ReactElement } from 'react';
 
 interface PartyDetailsProps {
   partyData: Party;
@@ -18,7 +18,7 @@ interface PartyDetailsProps {
 }
 
 const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleNewGuest }): ReactElement => {
-  const texts = useContext(TextContext);
+  const { texts } = useText();
 
   return (
     <FlexCard>

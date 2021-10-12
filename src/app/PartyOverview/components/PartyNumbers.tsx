@@ -1,14 +1,14 @@
 import { Party } from '../../../domain/Party';
 import { sumOfGuests } from '../../partyStateService';
-import { TextContext } from '../../texts/TextContext';
-import { FunctionComponent, ReactElement, useContext, useMemo } from 'react';
+import { useText } from '../../texts/useText';
+import { FunctionComponent, ReactElement, useMemo } from 'react';
 
 interface PartyNumbersProps {
   parties: Party[];
 }
 
 const PartyNumbers: FunctionComponent<PartyNumbersProps> = ({ parties }): ReactElement => {
-  const texts = useContext(TextContext);
+  const { texts } = useText();
 
   const numberOfGuests = useMemo((): number => sumOfGuests(parties), [ parties ]);
 

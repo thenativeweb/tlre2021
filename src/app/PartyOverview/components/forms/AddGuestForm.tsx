@@ -2,9 +2,9 @@ import { Button } from '../../../../components/Button';
 import { Form } from '../../../../components/Form';
 import { Guest } from '../../../../domain/Guest';
 import { SubHeadline } from '../../../../components/SubHeadline';
-import { TextContext } from '../../../texts/TextContext';
 import { TextInput } from '../../../../components/TextInput';
-import { ChangeEventHandler, FormEventHandler, FunctionComponent, ReactElement, useContext, useState } from 'react';
+import { useText } from '../../../texts/useText';
+import { ChangeEventHandler, FormEventHandler, FunctionComponent, ReactElement, useState } from 'react';
 
 const createEmptyGuest = (): Guest => ({
   name: '',
@@ -17,7 +17,7 @@ interface AddGuestFormProps {
 
 const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ onSave }): ReactElement => {
   const [ newGuest, setNewGuest ] = useState<Guest>(createEmptyGuest());
-  const texts = useContext(TextContext);
+  const { texts } = useText();
 
   const createEventHandlerFor =
   (property: keyof Guest): ChangeEventHandler<HTMLInputElement> =>

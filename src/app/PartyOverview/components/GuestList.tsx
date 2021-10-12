@@ -1,13 +1,13 @@
 import { Guest } from '../../../domain/Guest';
-import { TextContext } from '../../texts/TextContext';
-import { FunctionComponent, ReactElement, useContext } from 'react';
+import { useText } from '../../texts/useText';
+import { FunctionComponent, ReactElement } from 'react';
 
 interface GuestListProps {
   guests?: Guest[];
 }
 
 const GuestList: FunctionComponent<GuestListProps> = ({ guests }): ReactElement => {
-  const texts = useContext(TextContext);
+  const { texts } = useText();
 
   if (!guests || guests.length === 0) {
     return (

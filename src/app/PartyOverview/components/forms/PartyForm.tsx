@@ -2,10 +2,10 @@ import { AvatarSelect } from './AvatarSelect';
 import { Button } from '../../../../components/Button';
 import { Form } from '../../../../components/Form';
 import { TextArea } from '../../../../components/TextArea';
-import { TextContext } from '../../../texts/TextContext';
 import { TextInput } from '../../../../components/TextInput';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
-import { ChangeEventHandler, FunctionComponent, ReactElement, useContext, useReducer } from 'react';
+import { useText } from '../../../texts/useText';
+import { ChangeEventHandler, FunctionComponent, ReactElement, useReducer } from 'react';
 import { initialState, partyFormReducer } from './partyFormReducer';
 
 interface PartyFormProps {
@@ -13,7 +13,7 @@ interface PartyFormProps {
 }
 
 const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave }): ReactElement => {
-  const texts = useContext(TextContext);
+  const { texts } = useText();
   const [ state, dispatch ] = useReducer(partyFormReducer, initialState);
 
   const handleHostNameChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
