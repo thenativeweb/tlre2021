@@ -1,19 +1,22 @@
-import { createFetchPartyApi } from './app/api/FetchPartyApi';
-import { Headline } from './components/Headline';
+import { AppProviders } from './AppProviders';
+import { createGlobalStyle } from 'styled-components';
 import { PageLayout } from './layout/PageLayout';
-import { PartyOverviewContainer } from './app/PartyOverview/PartyOverviewContainer';
+import { PartyOverview } from './app/PartyOverview/PartyOverview';
 import { ReactElement } from 'react';
-import { Theme } from './layout/Theme';
-import { ThemeProvider } from 'styled-components';
 
+const GlobalStyles = createGlobalStyle`
+  body {
+    margin: 0;
+  };
+`;
 const App = function (): ReactElement {
   return (
-    <ThemeProvider theme={ Theme }>
-      <PageLayout>
-        <Headline>Halloween Party Planner</Headline>
-        <PartyOverviewContainer partyApi={ createFetchPartyApi() } />
+    <AppProviders>
+      <GlobalStyles />
+      <PageLayout title='Halloween Party Planner'>
+        <PartyOverview />
       </PageLayout>
-    </ThemeProvider>
+    </AppProviders>
   );
 };
 

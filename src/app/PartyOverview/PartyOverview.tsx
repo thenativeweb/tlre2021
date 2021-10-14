@@ -1,39 +1,56 @@
-import { Button } from '../../components/Button';
-import { Party } from '../../domain/Party';
-import { PartyForm } from './components/forms/PartyForm';
+import { AddPartyAccordion } from './components/AddPartyAccordion';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
-import { UnstoredParty } from '../../domain/UnstoredParty';
-import React, { FunctionComponent, ReactElement, useState } from 'react';
+import { useAddParty } from '../api/reactQuery/useAddParty';
+import { useFetchParties } from '../api/reactQuery/useFetchParties';
+import { useText } from '../texts/useText';
+import { useUpdateParty } from '../api/reactQuery/useUpdateParty';
+import React, { FunctionComponent, ReactElement } from 'react';
 
-interface PartyOverviewProps {
-  parties: Party[];
-  onAddParty: (newParty: UnstoredParty) => void;
-  onUpdateParty: (updatedParty: Party) => void;
-}
+// API HOOKS: CUSTOM
+// import { usePartyApi } from '../api/customHooks/usePartyApi';
+// API HOOKS: CUSTOM
 
-const PartyOverview: FunctionComponent<PartyOverviewProps> = ({ parties, onAddParty, onUpdateParty }): ReactElement => {
-  const [ showPartyForm, setShowPartyForm ] = useState<boolean>(false);
+const MemoizedPartyList = React.memo(PartyList);
 
-  const toggleShowPartyForm = (): void => {
-    setShowPartyForm((currentState): boolean => !currentState);
-  };
+const PartyOverview: FunctionComponent = (): ReactElement => {
+  const { texts } = useText();
 
-  const handleNewParty = async (newParty: UnstoredParty): Promise<void> => {
-    toggleShowPartyForm();
-    onAddParty(newParty);
-  };
+  // You can swtich between both Api Hook Implemenations "CUSTOM" or "REACT-QUERY".
+  // You'll have to comment out the other method.
+  // Tests will still pass.
+
+  // API HOOKS: CUSTOM
+  // const { parties, addParty, status, updateParty } = usePartyApi();
+
+  // API HOOKS: CUSTOM
+
+  // API HOOKS: REACT-QUERY
+  const { data, status } = useFetchParties();
+  const updateParty = useUpdateParty();
+  const addParty = useAddParty();
+  const parties = data ?? [];
+
+  // API HOOKS: REACT-QUERY
+
+  if (status === 'loading') {
+    return (<p>{texts.partyOverview.loading}</p>);
+  }
+
+  if (status === 'error') {
+    return (<p>{texts.partyOverview.error}</p>);
+  }
 
   return (
     <React.Fragment>
       <PartyNumbers parties={ parties } />
-      <Button onClick={ toggleShowPartyForm }>Neue Party hinzufügen</Button>
-      {showPartyForm && <PartyForm onPartySave={ handleNewParty } />}
-      <PartyList parties={ parties } onUpdateParty={ onUpdateParty } />
+      <AddPartyAccordion onPartySave={ addParty } />
+      <MemoizedPartyList parties={ parties } onUpdateParty={ updateParty } />
     </React.Fragment>
   );
 };
 
 export {
   PartyOverview
+
 };

@@ -1,12 +1,12 @@
 import { createTestGuest } from '../../../domain/createTestGuest';
 import { createTestParty } from '../../../domain/createTestParty';
 import { PartyNumbers } from './PartyNumbers';
-import { renderWithTheme } from '../../../../test/renderWithTheme';
+import { renderWithProviders } from '../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 
 describe('<PartyNumbers />', (): void => {
   it('shows the number of the parties.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <PartyNumbers parties={ [] } />
     );
 
@@ -19,7 +19,7 @@ describe('<PartyNumbers />', (): void => {
       createTestParty({ guests: [ createTestGuest(), createTestGuest() ]})
     ];
 
-    renderWithTheme(
+    renderWithProviders(
       <PartyNumbers parties={ parties } />
     );
 

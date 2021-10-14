@@ -1,12 +1,12 @@
 import { AvatarSelect } from './AvatarSelect';
 import noop from 'lodash/noop';
-import { renderWithTheme } from '../../../../../test/renderWithTheme';
+import { renderWithProviders } from '../../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('<AvatarSelect />', (): void => {
   it('display select box by label.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <AvatarSelect
         onChange={ noop }
       />
@@ -16,7 +16,7 @@ describe('<AvatarSelect />', (): void => {
   });
 
   it('selects "Kein Avatar" on default when no value given.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <AvatarSelect
         onChange={ noop }
       />
@@ -26,7 +26,7 @@ describe('<AvatarSelect />', (): void => {
   });
 
   it('selects the avatar matching the given value.', async (): Promise<void> => {
-    renderWithTheme(
+    renderWithProviders(
       <AvatarSelect
         onChange={ noop }
         value='avatare/avatar1.jpg'
@@ -39,7 +39,7 @@ describe('<AvatarSelect />', (): void => {
   it('fires the onChange Handler with the selected value.', async (): Promise<void> => {
     const onChangeSpy = jest.fn();
 
-    renderWithTheme(
+    renderWithProviders(
       <AvatarSelect
         onChange={ onChangeSpy }
         value='avatare/avatar1.jpg'

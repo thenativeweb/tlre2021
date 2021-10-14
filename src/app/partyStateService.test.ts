@@ -1,6 +1,6 @@
 import { createTestGuest } from '../domain/createTestGuest';
 import { createTestParty } from '../domain/createTestParty';
-import { addGuestToParty, addPartyToList, sumOfGuests, updateParty } from './partyStateService';
+import { addGuestToParty, addPartyToList, sumOfGuests, updatePartyInList } from './partyStateService';
 
 describe('partyStateService', (): void => {
   describe('.addGuestToParty()', (): void => {
@@ -56,7 +56,7 @@ describe('partyStateService', (): void => {
       const existingParty2 = createTestParty({ id: 2, description: 'Old Description' });
       const updatedParty = createTestParty({ id: 2, description: 'New Description' });
 
-      const resultArray = updateParty([ existingParty1, existingParty2 ], updatedParty);
+      const resultArray = updatePartyInList([ existingParty1, existingParty2 ], updatedParty);
 
       expect(resultArray).toEqual([ existingParty1, updatedParty ]);
     });
@@ -64,7 +64,7 @@ describe('partyStateService', (): void => {
     it('does not mutate the original array.', async (): Promise<void> => {
       const originalArray = [ createTestParty({ id: 1 }) ];
 
-      const resultArray = updateParty(originalArray, createTestParty({ id: 1 }));
+      const resultArray = updatePartyInList(originalArray, createTestParty({ id: 1 }));
 
       expect(resultArray).not.toBe(originalArray);
     });

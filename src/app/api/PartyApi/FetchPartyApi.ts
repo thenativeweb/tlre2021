@@ -1,6 +1,6 @@
-import { Party } from '../../domain/Party';
+import { Party } from '../../../domain/Party';
 import { PartyApi } from './PartyApi';
-import { UnstoredParty } from '../../domain/UnstoredParty';
+import { UnstoredParty } from '../../../domain/UnstoredParty';
 
 const parseJsonResponse = async (res: Response): Promise<any> => {
   if (!res.ok) {
