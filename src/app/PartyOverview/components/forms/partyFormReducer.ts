@@ -9,7 +9,7 @@ type PartyFormAction = {
 
 type PartyFormState = UnstoredParty;
 
-const initialState: PartyFormState = {
+const newParty: PartyFormState = {
   description: '',
   host: {
     name: ''
@@ -40,7 +40,7 @@ const partyFormReducer = (state: PartyFormState, action: PartyFormAction): Party
         }
       };
     case 'RESET_FORM':
-      return initialState;
+      return newParty;
     default:
       return state;
   }
@@ -48,7 +48,7 @@ const partyFormReducer = (state: PartyFormState, action: PartyFormAction): Party
 
 export {
   partyFormReducer,
-  initialState
+  newParty
 };
 
 export type {

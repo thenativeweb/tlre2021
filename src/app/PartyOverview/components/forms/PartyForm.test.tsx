@@ -1,3 +1,4 @@
+import { createTestParty } from '../../../../domain/createTestParty';
 import noop from 'lodash/noop';
 import { PartyForm } from './PartyForm';
 import { renderWithProviders } from '../../../../../test/renderWithProviders';
@@ -22,7 +23,7 @@ describe('<PartyFormTest />', (): void => {
     expect(screen.getByDisplayValue('Avatar 2')).toBeInTheDocument();
   });
 
-  it('lest the user input a party description.', async (): Promise<void> => {
+  it('lets the user input a party description.', async (): Promise<void> => {
     renderWithProviders(<PartyForm onPartySave={ noop } />);
 
     userEvent.type(screen.getByLabelText('Partybeschreibung'), 'New Party Description');
@@ -49,5 +50,51 @@ describe('<PartyFormTest />', (): void => {
     };
 
     expect(onPartySaveSpy).toHaveBeenCalledWith(exptectedParty);
+  });
+
+  it('given an existing party, fills the form with its initial values.', async (): Promise<void> => {
+    const existingParty = createTestParty({
+      id: 1,
+      description: 'Existing Party',
+      host: {
+        name: 'Existing Host',
+        avatarUrl: 'avatare/avatar2.jpg'
+      }
+    });
+
+    renderWithProviders(<PartyForm party={ existingParty } onPartySave={ noop } />);
+
+    expect(screen.getByDisplayValue('Existing Party')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Existing Host')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Avatar 2')).toBeInTheDocument();
+  });
+
+  it('given an existing party, onPartySave returns the full updated party.', async (): Promise<void> => {
+    const existingParty = createTestParty({
+      id: 1,
+      description: 'Existing Party',
+      host: {
+        name: 'Existing Host',
+        avatarUrl: 'avatare/avatar2.jpg'
+      }
+    });
+    const onPartySaveSpy = jest.fn();
+
+    renderWithProviders(<PartyForm party={ existingParty } onPartySave={ onPartySaveSpy } />);
+
+    const descriptionInput = screen.getByLabelText('Partybeschreibung');
+
+    userEvent.clear(descriptionInput);
+    userEvent.type(descriptionInput, 'New Description');
+    userEvent.click(screen.getByText('Party speichern'));
+
+    expect(onPartySaveSpy).toHaveBeenCalled();
+
+    const expectedParty = {
+      ...existingParty,
+      description: 'New Description'
+    };
+
+    expect(onPartySaveSpy).toHaveBeenCalledWith(expectedParty);
   });
 });

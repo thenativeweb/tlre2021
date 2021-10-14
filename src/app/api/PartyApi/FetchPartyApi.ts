@@ -26,6 +26,9 @@ const createFetchPartyApi = (): PartyApi => {
     async fetchAllParties (): Promise<Party[]> {
       return fetch(partiesEndpoint).then(parseJsonResponse);
     },
+    async fetchPartyById (id: number): Promise<Party> {
+      return fetch(`${partiesEndpoint}/${id}`).then(parseJsonResponse);
+    },
     async updateParty (updatedParty: Party): Promise<Party> {
       return fetch(`${partiesEndpoint}/${updatedParty.id}`, {
         method: 'PUT',

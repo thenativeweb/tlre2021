@@ -1,20 +1,22 @@
 import { AvatarSelect } from './AvatarSelect';
 import { Button } from '../../../../components/Button';
 import { Form } from '../../../../components/Form';
+import { Party } from '../../../../domain/Party';
 import { TextArea } from '../../../../components/TextArea';
 import { TextInput } from '../../../../components/TextInput';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
 import { useText } from '../../../texts/useText';
 import { ChangeEventHandler, FunctionComponent, ReactElement, useReducer } from 'react';
-import { initialState, partyFormReducer } from './partyFormReducer';
+import { newParty, partyFormReducer } from './partyFormReducer';
 
 interface PartyFormProps {
   onPartySave: (newParty: UnstoredParty) => void;
+  party?: Party;
 }
 
-const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave }): ReactElement => {
+const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): ReactElement => {
   const { texts } = useText();
-  const [ state, dispatch ] = useReducer(partyFormReducer, initialState);
+  const [ state, dispatch ] = useReducer(partyFormReducer, party ?? newParty);
 
   const handleHostNameChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
     dispatch({ type: 'SET_HOST_NAME', body: event.target.value });
