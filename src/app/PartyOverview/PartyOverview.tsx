@@ -8,25 +8,10 @@ import { useText } from '../texts/useText';
 import { useUpdateParty } from '../api/reactQuery/useUpdateParty';
 import React, { FunctionComponent, ReactElement } from 'react';
 
-// API HOOKS: CUSTOM
-// import { usePartyApi } from '../api/customHooks/usePartyApi';
-// API HOOKS: CUSTOM
-
 const MemoizedPartyList = React.memo(PartyList);
 
 const PartyOverview: FunctionComponent = (): ReactElement => {
   const { texts } = useText();
-
-  // You can swtich between both Api Hook Implemenations "CUSTOM" or "REACT-QUERY".
-  // You'll have to comment out the other method.
-  // Tests will still pass.
-
-  // API HOOKS: CUSTOM
-  // const { parties, addParty, status, updateParty } = usePartyApi();
-
-  // API HOOKS: CUSTOM
-
-  // API HOOKS: REACT-QUERY
   const { data, status } = useFetchParties();
   const parties = data ?? [];
 
@@ -35,8 +20,6 @@ const PartyOverview: FunctionComponent = (): ReactElement => {
 
   const addParty = useAddParty();
   const handleSaveParty = addParty.mutate;
-
-  // API HOOKS: REACT-QUERY
 
   if (status === 'loading') {
     return (<p>{texts.partyOverview.loading}</p>);
