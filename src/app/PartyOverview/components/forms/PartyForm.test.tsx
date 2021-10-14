@@ -1,3 +1,4 @@
+import { AvatarData } from './AvatarData';
 import { createTestParty } from '../../../../domain/createTestParty';
 import noop from 'lodash/noop';
 import { PartyForm } from './PartyForm';
@@ -18,9 +19,9 @@ describe('<PartyFormTest />', (): void => {
   it('lets the user select an avatar.', async (): Promise<void> => {
     renderWithProviders(<PartyForm onPartySave={ noop } />);
 
-    userEvent.selectOptions(screen.getByLabelText('Avatar auswählen'), 'Avatar 2');
+    userEvent.selectOptions(screen.getByLabelText('Avatar auswählen'), AvatarData.avatar2.name);
 
-    expect(screen.getByDisplayValue('Avatar 2')).toBeInTheDocument();
+    expect(screen.getByDisplayValue(AvatarData.avatar2.name)).toBeInTheDocument();
   });
 
   it('lets the user input a party description.', async (): Promise<void> => {
@@ -37,14 +38,14 @@ describe('<PartyFormTest />', (): void => {
     renderWithProviders(<PartyForm onPartySave={ onPartySaveSpy } />);
 
     userEvent.type(screen.getByLabelText('Name des Gastgebers'), 'New Host Name');
-    userEvent.selectOptions(screen.getByLabelText('Avatar auswählen'), 'Avatar 2');
+    userEvent.selectOptions(screen.getByLabelText('Avatar auswählen'), AvatarData.avatar2.name);
     userEvent.type(screen.getByLabelText('Partybeschreibung'), 'New Party Description');
     userEvent.click(screen.getByText('Party speichern'));
 
     const exptectedParty: UnstoredParty = {
       host: {
         name: 'New Host Name',
-        avatarUrl: 'avatare/avatar2.jpg'
+        avatarUrl: AvatarData.avatar2.url
       },
       description: 'New Party Description'
     };
@@ -58,7 +59,7 @@ describe('<PartyFormTest />', (): void => {
       description: 'Existing Party',
       host: {
         name: 'Existing Host',
-        avatarUrl: 'avatare/avatar2.jpg'
+        avatarUrl: AvatarData.avatar2.url
       }
     });
 
@@ -75,7 +76,7 @@ describe('<PartyFormTest />', (): void => {
       description: 'Existing Party',
       host: {
         name: 'Existing Host',
-        avatarUrl: 'avatare/avatar2.jpg'
+        avatarUrl: AvatarData.avatar2.url
       }
     });
     const onPartySaveSpy = jest.fn();

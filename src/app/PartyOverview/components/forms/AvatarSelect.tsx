@@ -1,3 +1,4 @@
+import { AvatarData } from './AvatarData';
 import { Select } from '../../../../components/Select';
 import { useText } from '../../../texts/useText';
 import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
@@ -23,9 +24,9 @@ const AvatarSelect: FunctionComponent<AvatarSelectProps> = ({
       value={ value }
     >
       <option value={ undefined }>{texts.avatarSelect.nullOption}</option>
-      <option value='avatare/avatar1.jpg'>Avatar 1</option>
-      <option value='avatare/avatar2.jpg'>Avatar 2</option>
-      <option value='avatare/avatar3.jpg'>Avatar 3</option>
+      <option value={ AvatarData.avatar1.url }>{AvatarData.avatar1.name}</option>
+      <option value={ AvatarData.avatar2.url }>{AvatarData.avatar2.name}</option>
+      <option value={ AvatarData.avatar3.url }>{AvatarData.avatar3.name}</option>
     </Select>
   );
 };
