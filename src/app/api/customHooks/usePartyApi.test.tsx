@@ -1,7 +1,7 @@
 import { ApiContext } from '../PartyApi/ApiContext';
+import { createInMemoryPartyApi } from '../PartyApi/InMemoryPartyApi';
 import { createTestHost } from '../../../domain/createTestHost';
 import { createTestParty } from '../../../domain/createTestParty';
-import { createTestPartyApi } from '../PartyApi/TestPartyApi';
 import { Party } from '../../../domain/Party';
 import { PartyApi } from '../PartyApi/PartyApi';
 import { UnstoredParty } from '../../../domain/UnstoredParty';
@@ -14,9 +14,9 @@ const createWrapper = (testApi: PartyApi): FunctionComponent => ({ children }): 
 describe('usePartyApi', (): void => {
   it('initially fetches all parties from the PartyApi and adds them as party.', async (): Promise<void> => {
     const testParty = createTestParty();
-    const wrapper = createWrapper(createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => Promise.resolve([ testParty ])
-    }));
+    const wrapper = createWrapper(
+      createInMemoryPartyApi({ initialState: [ testParty ]})
+    );
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
     await waitForNextUpdate();
@@ -25,9 +25,7 @@ describe('usePartyApi', (): void => {
   });
 
   it('has apiState to "loading" until initial arties were fetched.', async (): Promise<void> => {
-    const wrapper = createWrapper(createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => Promise.resolve([])
-    }));
+    const wrapper = createWrapper(createInMemoryPartyApi({}));
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
     const expectedApiState: ApiStatus = 'loading';
@@ -40,9 +38,9 @@ describe('usePartyApi', (): void => {
 
   it('sets the apiState to "success" once the api returned.', async (): Promise<void> => {
     const testParty = createTestParty();
-    const wrapper = createWrapper(createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => Promise.resolve([ testParty ])
-    }));
+    const wrapper = createWrapper(
+      createInMemoryPartyApi({ initialState: [ testParty ]})
+    );
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
     await waitForNextUpdate();
@@ -57,13 +55,8 @@ describe('usePartyApi', (): void => {
       description: 'New Description',
       host: createTestHost()
     };
-    const returnedParty = createTestParty();
-    const addPartySpy = jest.fn().mockResolvedValue(returnedParty);
 
-    const wrapper = createWrapper(createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => Promise.resolve([ ]),
-      addNewParty: addPartySpy
-    }));
+    const wrapper = createWrapper(createInMemoryPartyApi({}));
 
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
@@ -73,12 +66,15 @@ describe('usePartyApi', (): void => {
       result.current.addParty(addedParty);
     });
 
-    expect(addPartySpy).toHaveBeenCalledWith(addedParty);
-
     await waitForNextUpdate();
 
+    const expectedParty = createTestParty({
+      ...addedParty,
+      guests: []
+    });
+
     expect(result.current.parties).toHaveLength(1);
-    expect(result.current.parties).toEqual([ returnedParty ]);
+    expect(result.current.parties).toEqual([ expectedParty ]);
   });
 
   it('on updateParty, sets the new values in the parties-arry when the api returns.', async (): Promise<void> => {
@@ -87,11 +83,7 @@ describe('usePartyApi', (): void => {
       ...initialParty,
       description: 'New Description'
     };
-    const updatePartySpy = jest.fn().mockResolvedValue(updatedParty);
-    const wrapper = createWrapper(createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => Promise.resolve([ initialParty ]),
-      updateParty: updatePartySpy
-    }));
+    const wrapper = createWrapper(createInMemoryPartyApi({ initialState: [ initialParty ]}));
 
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
@@ -100,7 +92,6 @@ describe('usePartyApi', (): void => {
     act((): void => {
       result.current.updateParty(updatedParty);
     });
-    expect(updatePartySpy).toHaveBeenCalledWith(updatedParty);
 
     await waitForNextUpdate();
 
@@ -109,11 +100,11 @@ describe('usePartyApi', (): void => {
 
   it('on error during initial fetch, sets the error and apiState to error.', async (): Promise<void> => {
     const error = new Error('ApiError');
-    const wrapper = createWrapper(createTestPartyApi({
+    const wrapper = createWrapper(createInMemoryPartyApi({ overwrites: {
       async fetchAllParties (): Promise<Party[]> {
         throw error;
       }
-    }));
+    }}));
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
     await waitForNextUpdate();
@@ -126,11 +117,13 @@ describe('usePartyApi', (): void => {
 
   it('on error during addParty, sets the error and apiState to error.', async (): Promise<void> => {
     const error = new Error('ApiError');
-    const wrapper = createWrapper(createTestPartyApi({
-      async addNewParty (): Promise<Party> {
-        throw error;
-      }
-    }));
+    const wrapper = createWrapper(
+      createInMemoryPartyApi({ overwrites: {
+        async addNewParty (): Promise<Party> {
+          throw error;
+        }
+      }})
+    );
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
     await waitForNextUpdate();
@@ -149,11 +142,11 @@ describe('usePartyApi', (): void => {
 
   it('on error during updatedParty, sets the error and apiState to error.', async (): Promise<void> => {
     const error = new Error('ApiError');
-    const wrapper = createWrapper(createTestPartyApi({
+    const wrapper = createWrapper(createInMemoryPartyApi({ overwrites: {
       async updateParty (): Promise<Party> {
         throw error;
       }
-    }));
+    }}));
     const { result, waitForNextUpdate } = renderHook((): PartyApiHook => usePartyApi(), { wrapper });
 
     await waitForNextUpdate();
