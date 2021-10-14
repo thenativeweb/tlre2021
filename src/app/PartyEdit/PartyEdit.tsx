@@ -17,11 +17,11 @@ const PartyEdit: FunctionComponent = (): ReactElement => {
   }
 
   if (status === 'error') {
-    return (<p>Fehler. Bitte versuchen Sie es später erneut...</p>);
+    return (<p>Fehler beim Laden der Daten. Bitte versuchen Sie es später erneut...</p>);
   }
 
   const handlePartyUpdate = (party: UnstoredParty): void => {
-    updateParty(party as Party);
+    updateParty.mutate(party as Party);
     history.push('/');
   };
 
