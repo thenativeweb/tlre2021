@@ -4,28 +4,41 @@ import { PartyApi } from '../PartyApi/PartyApi';
 import { PartyStateKey } from './PartyStateKey';
 import { updatePartyInList } from '../../partyStateService';
 import { useContext } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, UseMutationResult, useQueryClient } from 'react-query';
 
-type UpdateParty = (updatedParty: Party) => void;
+interface UpdatePartyContext {
+  previousParties: Party[];
+}
 
-const useUpdateParty = (): UpdateParty => {
+const useUpdateParty = (): UseMutationResult<Party, unknown, Party, UpdatePartyContext> => {
   const partyApi: PartyApi = useContext(ApiContext);
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(partyApi.updateParty, {
+  const mutation = useMutation<Party, unknown, Party, UpdatePartyContext>(partyApi.updateParty, {
     onSuccess (returnedUpdatedParty: Party): void {
       const previousParties = queryClient.getQueryData<Party[]>(PartyStateKey);
 
       queryClient.setQueryData(PartyStateKey, updatePartyInList(previousParties!, returnedUpdatedParty));
     },
-    onMutate (updatedParty: Party): void {
+    onMutate (updatedParty: Party): UpdatePartyContext {
       const previousParties = queryClient.getQueryData<Party[]>(PartyStateKey);
 
-      queryClient.setQueryData(PartyStateKey, updatePartyInList(previousParties!, updatedParty));
+      if (previousParties) {
+        queryClient.setQueryData(PartyStateKey, updatePartyInList(previousParties, updatedParty));
+
+        return { previousParties };
+      }
+
+      return { previousParties: []};
+    },
+    onError (error, updatedParty, context): void {
+      if (context?.previousParties) {
+        queryClient.setQueryData(PartyStateKey, context.previousParties);
+      }
     }
   });
 
-  return mutation.mutate;
+  return mutation;
 };
 
 export {

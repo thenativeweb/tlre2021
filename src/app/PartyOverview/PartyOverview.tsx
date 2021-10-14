@@ -1,4 +1,5 @@
 import { AddPartyAccordion } from './components/AddPartyAccordion';
+import { ErrorCard } from '../../components/ErrorCard';
 import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
 import { useAddParty } from '../api/reactQuery/useAddParty';
@@ -27,9 +28,13 @@ const PartyOverview: FunctionComponent = (): ReactElement => {
 
   // API HOOKS: REACT-QUERY
   const { data, status } = useFetchParties();
-  const updateParty = useUpdateParty();
-  const addParty = useAddParty();
   const parties = data ?? [];
+
+  const updateParty = useUpdateParty();
+  const handleUpdateParty = updateParty.mutate;
+
+  const addParty = useAddParty();
+  const handleSaveParty = addParty.mutate;
 
   // API HOOKS: REACT-QUERY
 
@@ -38,14 +43,16 @@ const PartyOverview: FunctionComponent = (): ReactElement => {
   }
 
   if (status === 'error') {
-    return (<p>{texts.partyOverview.error}</p>);
+    return (<ErrorCard message={ texts.partyOverview.error } />);
   }
 
   return (
     <React.Fragment>
+      <ErrorCard displayWhen={ updateParty.status === 'error' } message={ texts.partyOverview.addGuestError } />
+      <ErrorCard displayWhen={ addParty.status === 'error' } message={ texts.partyOverview.savePartyError } />
       <PartyNumbers parties={ parties } />
-      <AddPartyAccordion onPartySave={ addParty } />
-      <MemoizedPartyList parties={ parties } onUpdateParty={ updateParty } />
+      <AddPartyAccordion onPartySave={ handleSaveParty } />
+      <MemoizedPartyList parties={ parties } onUpdateParty={ handleUpdateParty } />
     </React.Fragment>
   );
 };

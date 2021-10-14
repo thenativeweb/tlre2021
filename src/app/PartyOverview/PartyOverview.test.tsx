@@ -1,7 +1,7 @@
 import { ApiContext } from '../api/PartyApi/ApiContext';
+import { createInMemoryPartyApi } from '../api/PartyApi/InMemoryPartyApi';
 import { createTestHost } from '../../domain/createTestHost';
 import { createTestParty } from '../../domain/createTestParty';
-import { createTestPartyApi } from '../api/PartyApi/TestPartyApi';
 import { defer } from '../../../test/controllabePromise';
 import { Guest } from '../../domain/Guest';
 import noop from 'lodash/noop';
@@ -33,11 +33,22 @@ describe('PartyOverview', (): void => {
     );
   };
 
+  beforeEach(async (): Promise<void> => {
+    // Avoid console output in tests
+    jest.spyOn(console, 'error').mockImplementation(noop);
+  });
+
+  afterEach(async (): Promise<void> => {
+    jest.restoreAllMocks();
+  });
+
   // We only test the state-toggle here. All other functions are tested in the PartyOverviewContainer
   it('shows loading screen until fetchAllParties returns.', async (): Promise<void> => {
     const deferred = defer<Party[]>();
-    const testApi = createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => deferred.promise
+    const testApi = createInMemoryPartyApi({
+      overwrites: {
+        fetchAllParties: async (): Promise<Party[]> => deferred.promise
+      }
     });
 
     renderWithApi(testApi);
@@ -49,11 +60,11 @@ describe('PartyOverview', (): void => {
   });
 
   it('shows the parties returned from fetchAllParties.', async (): Promise<void> => {
-    const testApi = createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => Promise.resolve([
+    const testApi = createInMemoryPartyApi({
+      initialState: [
         createTestParty({ id: 1, host: createTestHost({ name: 'Selina' }) }),
         createTestParty({ id: 2, host: createTestHost({ name: 'Bruce' }) })
-      ])
+      ]
     });
 
     renderWithApi(testApi);
@@ -63,22 +74,21 @@ describe('PartyOverview', (): void => {
   });
 
   it('shows an error if fetchAllParties fails.', async (): Promise<void> => {
-    // Avoid console output in tests
-    jest.spyOn(console, 'error').mockImplementation(noop);
-    const testApi = createTestPartyApi({
-      async fetchAllParties (): Promise<Party[]> {
-        throw new Error('Error while fetching...');
+    const testApi = createInMemoryPartyApi({
+      overwrites: {
+        async fetchAllParties (): Promise<Party[]> {
+          throw new Error('Error while fetching...');
+        }
       }
     });
 
     renderWithApi(testApi);
 
     expect(await screen.findByText('Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...')).toBeInTheDocument();
-    jest.restoreAllMocks();
   });
 
   it('shows the addPartyForm after click of the toggle button.', async (): Promise<void> => {
-    renderWithApi(createTestPartyApi());
+    renderWithApi(createInMemoryPartyApi({}));
 
     const addPartyButton = await screen.findByText('Neue Party hinzufügen');
 
@@ -93,16 +103,35 @@ describe('PartyOverview', (): void => {
     const inputParty: UnstoredParty = {
       description: 'New Party Description',
       host: createTestHost({
-        name: 'Kim',
+        name: 'Alex',
         avatarUrl: undefined
       })
     };
 
-    const testApi = createTestPartyApi({
-      addNewParty: jest.fn().mockResolvedValue(createTestParty({
-        id: 2,
-        ...inputParty
-      }))
+    const testApi = createInMemoryPartyApi({});
+
+    renderWithApi(testApi);
+
+    // Wait till parties were fetched
+    await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));
+    userEvent.click(screen.getByText('Neue Party hinzufügen'));
+    userEvent.type(screen.getByLabelText('Name des Gastgebers'), inputParty.host.name);
+    userEvent.type(screen.getByLabelText('Partybeschreibung'), inputParty.description);
+
+    userEvent.click(screen.getByText('Party speichern'));
+    expect(await screen.findByText('Alexs Halloween-Party')).toBeInTheDocument();
+  });
+
+  it('when saving a new party and the api errors, shows an error message..', async (): Promise<void> => {
+    const inputParty: UnstoredParty = {
+      description: 'New Party Description',
+      host: createTestHost({ name: 'Alex' })
+    };
+
+    const testApi = createInMemoryPartyApi({
+      overwrites: { async addNewParty (): Promise<Party> {
+        throw new Error('TestError');
+      } }
     });
 
     renderWithApi(testApi);
@@ -114,8 +143,8 @@ describe('PartyOverview', (): void => {
     userEvent.type(screen.getByLabelText('Partybeschreibung'), inputParty.description);
 
     userEvent.click(screen.getByText('Party speichern'));
-    expect(await screen.findByText('Kims Halloween-Party')).toBeInTheDocument();
-    expect(testApi.addNewParty).toHaveBeenCalledWith(inputParty);
+    expect(await screen.findByText('Fehler beim Speichern der Party.', { exact: false })).toBeInTheDocument();
+    expect(screen.queryByText('Alexs Halloween-Party')).not.toBeInTheDocument();
   });
 
   it('when adding a new guest, submits the updated party and shows the guest after.', async (): Promise<void> => {
@@ -125,12 +154,7 @@ describe('PartyOverview', (): void => {
       costume: 'New Guest Costume'
     };
 
-    const spiedUpdateParty = jest.fn().mockImplementation(async (updatedParty: Party): Promise<Party> => Promise.resolve(updatedParty));
-
-    const testApi = createTestPartyApi({
-      fetchAllParties: async (): Promise<Party[]> => Promise.resolve([ existingParty ]),
-      updateParty: spiedUpdateParty
-    });
+    const testApi = createInMemoryPartyApi({ initialState: [ existingParty ]});
 
     renderWithApi(testApi);
 
@@ -142,11 +166,35 @@ describe('PartyOverview', (): void => {
     userEvent.click(screen.getByText('Speichern'));
 
     expect(await screen.findByText('New Guest kostümiert als New Guest Costume')).toBeInTheDocument();
-    const expectedParty: Party = {
-      ...existingParty,
-      guests: [ inputGuest ]
+  });
+
+  it('on adding a new guest, when the API errors, show an error and reverts the party state.', async (): Promise<void> => {
+    const existingParty = createTestParty({ id: 1, guests: []});
+    const inputGuest: Guest = {
+      name: 'New Guest'
     };
 
-    expect(spiedUpdateParty).toHaveBeenCalledWith(expectedParty);
+    const testApi = createInMemoryPartyApi(
+      {
+        initialState: [ existingParty ],
+        overwrites: {
+          async updateParty (): Promise<Party> {
+            throw new Error('API Error');
+          }
+        }
+      }
+    );
+
+    renderWithApi(testApi);
+
+    // Wait till parties were fetched
+    await waitForElementToBeRemoved(screen.getByText('Lade Parties...'));
+
+    userEvent.type(screen.getByLabelText('Name'), inputGuest.name);
+    userEvent.type(screen.getByLabelText('Kostüm'), inputGuest.costume!);
+    userEvent.click(screen.getByText('Speichern'));
+
+    expect(await screen.findByText('Fehler beim Hinzufügen des Gastes.', { exact: false })).toBeInTheDocument();
+    expect(screen.queryByText('New Guest')).not.toBeInTheDocument();
   });
 });

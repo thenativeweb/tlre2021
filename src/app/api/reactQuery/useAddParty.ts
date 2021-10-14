@@ -5,16 +5,18 @@ import { PartyApi } from '../PartyApi/PartyApi';
 import { PartyStateKey } from './PartyStateKey';
 import { UnstoredParty } from '../../../domain/UnstoredParty';
 import { useContext } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, UseMutationResult, useQueryClient } from 'react-query';
 
-type AddParty = (addedParty: UnstoredParty) => void;
+interface AddPartyContext {
+  previousParties: Party[];
+}
 
-const useAddParty = (): AddParty => {
+const useAddParty = (): UseMutationResult<Party, unknown, UnstoredParty, AddPartyContext> => {
   const partyApi: PartyApi = useContext(ApiContext);
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(partyApi.addNewParty, {
-    onMutate (addedParty: UnstoredParty): void {
+  const mutation = useMutation<Party, unknown, UnstoredParty, AddPartyContext>(partyApi.addNewParty, {
+    onMutate (addedParty: UnstoredParty): AddPartyContext {
       const previousParties = queryClient.getQueryData<Party[]>(PartyStateKey);
 
       if (previousParties) {
@@ -25,15 +27,24 @@ const useAddParty = (): AddParty => {
         };
 
         queryClient.setQueryData(PartyStateKey, addPartyToList(previousParties, optimisticAddedParty));
+
+        return { previousParties };
       }
+
+      return { previousParties: []};
     },
     onSettled (): void {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       queryClient.invalidateQueries(PartyStateKey);
+    },
+    onError (error, newParty, context): void {
+      if (context?.previousParties) {
+        queryClient.setQueryData(PartyStateKey, context.previousParties);
+      }
     }
   });
 
-  return mutation.mutate;
+  return mutation;
 };
 
 export {

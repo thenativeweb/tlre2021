@@ -3,7 +3,9 @@ const defaultTextContext = {
     loading: 'Lade Parties...',
     error: 'Fehler beim laden der Parties. Bitte versuchen Sie es später ernuet...',
     partyNumbers: (partiesNumber: number, guestNumber: number): string => ` Wir haben <strong>${partiesNumber} Parties</strong> mit insgesamt <strong>${guestNumber} Gästen</strong> für Dich!   
-    `
+    `,
+    addGuestError: 'Fehler beim Hinzufügen des Gastes. Bitte versuchen Sie es später erneut...',
+    savePartyError: 'Fehler beim Speichern der Party. Bitte versuchen Sie es später erneut...'
   },
   addPartyForm: {
     hostNameInputLabel: 'Name des Gastgebers',
