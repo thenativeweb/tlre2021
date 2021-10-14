@@ -18,7 +18,9 @@ const useUpdateParty = (): UseMutationResult<Party, unknown, Party, UpdatePartyC
     onSuccess (returnedUpdatedParty: Party): void {
       const previousParties = queryClient.getQueryData<Party[]>(PartyStateKey);
 
-      queryClient.setQueryData(PartyStateKey, updatePartyInList(previousParties!, returnedUpdatedParty));
+      if (previousParties) {
+        queryClient.setQueryData(PartyStateKey, updatePartyInList(previousParties, returnedUpdatedParty));
+      }
     },
     onMutate (updatedParty: Party): UpdatePartyContext {
       const previousParties = queryClient.getQueryData<Party[]>(PartyStateKey);

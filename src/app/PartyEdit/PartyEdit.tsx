@@ -2,13 +2,16 @@ import { Party } from '../../domain/Party';
 import { PartyForm } from '../PartyOverview/components/forms/PartyForm';
 import { UnstoredParty } from '../../domain/UnstoredParty';
 import { useFetchPartyById } from '../api/reactQuery/useFetchPartyById';
+import { useHistory } from 'react-router-dom';
 import { useUpdateParty } from '../api/reactQuery/useUpdateParty';
 import { FunctionComponent, ReactElement } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
 
-const PartyEdit: FunctionComponent = (): ReactElement => {
-  const { id } = useParams<{ id: string }>();
-  const { data, status } = useFetchPartyById(Number(id));
+interface PartyEditProps {
+  partyId: Party['id'];
+}
+
+const PartyEdit: FunctionComponent<PartyEditProps> = ({ partyId }): ReactElement => {
+  const { data, status } = useFetchPartyById(partyId);
   const updateParty = useUpdateParty();
   const history = useHistory();
 
@@ -20,8 +23,8 @@ const PartyEdit: FunctionComponent = (): ReactElement => {
     return (<p>Fehler beim Laden der Daten. Bitte versuchen Sie es später erneut...</p>);
   }
 
-  const handlePartyUpdate = (party: UnstoredParty): void => {
-    updateParty.mutate(party as Party);
+  const handlePartyUpdate = async (party: UnstoredParty): Promise<void> => {
+    await updateParty.mutateAsync(party as Party);
     history.push('/');
   };
 

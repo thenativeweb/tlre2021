@@ -1,9 +1,10 @@
 import { AppProviders } from './AppProviders';
 import { createGlobalStyle } from 'styled-components';
 import { PageLayout } from './layout/PageLayout';
-import { PartyEdit } from './app/PartyEdit/PartyEdit';
+import { PartyEditPage } from './app/PartyEdit/PartyEditPage';
 import { PartyOverview } from './app/PartyOverview/PartyOverview';
 import { ReactElement } from 'react';
+import { routes } from './app/routes';
 import {
   Route,
   BrowserRouter as Router,
@@ -23,7 +24,7 @@ const App = function (): ReactElement {
         <PageLayout title='Halloween Party Planner'>
           <Switch>
             <Route exact={ true } path='/' component={ PartyOverview } />
-            <Route path='/edit/:id' component={ PartyEdit } />
+            <Route path={ routes.editParty.routerUrl } component={ PartyEditPage } />
           </Switch>
         </PageLayout>
       </Router>
