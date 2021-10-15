@@ -16,6 +16,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
   };
 `;
+
 const App = function (): ReactElement {
   return (
     <AppProviders>

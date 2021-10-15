@@ -8,6 +8,7 @@ import React, { FunctionComponent, ReactElement, useCallback } from 'react';
 
 const StyledPartyList = styled.ul`
   list-style-type: none;
+  padding: 0px;
   
   li {
     margin-bottom: 10px;

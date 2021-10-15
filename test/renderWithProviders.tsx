@@ -26,6 +26,7 @@ const renderWithProviders = (component: ReactElement): RenderResult => {
         </QueryClientProvider>
       </TextContext.Provider>
     </ThemeProvider>
+
   );
 };
 
