@@ -5,7 +5,7 @@ import { Party } from '../../../../domain/Party';
 import { TextArea } from '../../../../components/TextArea';
 import { TextInput } from '../../../../components/TextInput';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
-import { useText } from '../../../texts/useText';
+import { useTranslation } from 'react-i18next';
 import { ChangeEventHandler, FunctionComponent, ReactElement, useReducer } from 'react';
 import { newParty, partyFormReducer } from './partyFormReducer';
 
@@ -15,7 +15,7 @@ interface PartyFormProps {
 }
 
 const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): ReactElement => {
-  const { texts } = useText();
+  const { t } = useTranslation();
   const [ state, dispatch ] = useReducer(partyFormReducer, party ?? newParty);
 
   const handleHostNameChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
@@ -38,7 +38,7 @@ const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): R
   return (
     <Form>
       <TextInput
-        label={ texts.addPartyForm.hostNameInputLabel }
+        label={ t('addPartyForm.hostNameInputLabel') }
         value={ state.host.name }
         onChange={ handleHostNameChange }
       />
@@ -47,11 +47,11 @@ const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): R
         value={ state.host.avatarUrl }
       />
       <TextArea
-        label={ texts.addPartyForm.descriptionLabel }
+        label={ t('addPartyForm.descriptionLabel') }
         value={ state.description }
         onChange={ handleDescriptionChange }
       />
-      <Button type='button' onClick={ handlePartySave }>{texts.addPartyForm.saveButtonLabel}</Button>
+      <Button type='button' onClick={ handlePartySave }>{ t('addPartyForm.saveButtonLabel') }</Button>
     </Form>
   );
 };

@@ -3,7 +3,7 @@ import { Guest } from '../../../domain/Guest';
 import { Party } from '../../../domain/Party';
 import { PartyDetails } from './PartyDetails';
 import styled from 'styled-components';
-import { useText } from '../../texts/useText';
+import { useTranslation } from 'react-i18next';
 import React, { FunctionComponent, ReactElement, useCallback } from 'react';
 
 const StyledPartyList = styled.ul`
@@ -26,7 +26,8 @@ interface PartyListProps {
 }
 
 const PartyList: FunctionComponent<PartyListProps> = ({ parties, onUpdateParty }): ReactElement => {
-  const { texts } = useText();
+  const { t } = useTranslation();
+
   const handleNewGuestFor = useCallback((party: Party, newGuest: Guest): void => {
     const updatedParty = addGuestToParty(party, newGuest);
 
@@ -45,7 +46,7 @@ const PartyList: FunctionComponent<PartyListProps> = ({ parties, onUpdateParty }
   ));
 
   return (
-    <StyledPartyList aria-label={ texts.partyList.listLabel }>
+    <StyledPartyList aria-label={ t('partyList.listLabel') }>
       {partyDetails}
     </StyledPartyList>
   );

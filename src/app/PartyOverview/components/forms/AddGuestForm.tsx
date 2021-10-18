@@ -3,7 +3,7 @@ import { Form } from '../../../../components/Form';
 import { Guest } from '../../../../domain/Guest';
 import { SubHeadline } from '../../../../components/SubHeadline';
 import { TextInput } from '../../../../components/TextInput';
-import { useText } from '../../../texts/useText';
+import { useTranslation } from 'react-i18next';
 import { ChangeEventHandler, FormEventHandler, FunctionComponent, ReactElement, useState } from 'react';
 
 const createEmptyGuest = (): Guest => ({
@@ -17,7 +17,7 @@ interface AddGuestFormProps {
 
 const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ onSave }): ReactElement => {
   const [ newGuest, setNewGuest ] = useState<Guest>(createEmptyGuest());
-  const { texts } = useText();
+  const { t } = useTranslation();
 
   const createEventHandlerFor =
   (property: keyof Guest): ChangeEventHandler<HTMLInputElement> =>
@@ -37,18 +37,18 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ onSave }): ReactEl
 
   return (
     <Form onSubmit={ handleSave }>
-      <SubHeadline>{texts.addGuestForm.title}</SubHeadline>
+      <SubHeadline>{t('addGuestForm.title')}</SubHeadline>
       <TextInput
-        label={ texts.addGuestForm.nameInputLabel }
+        label={ t('addGuestForm.nameInputLabel') }
         value={ newGuest.name }
         onChange={ createEventHandlerFor('name') }
       />
       <TextInput
-        label={ texts.addGuestForm.costumeInputLabel }
+        label={ t('addGuestForm.costumeInputLabel') }
         value={ newGuest.costume }
         onChange={ createEventHandlerFor('costume') }
       />
-      <Button type='submit'>{texts.addGuestForm.saveButtonLabel}</Button>
+      <Button type='submit'>{ t('addGuestForm.saveButtonLabel') }</Button>
     </Form>
   );
 };

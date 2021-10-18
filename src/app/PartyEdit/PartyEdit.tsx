@@ -3,6 +3,7 @@ import { PartyForm } from '../PartyOverview/components/forms/PartyForm';
 import { UnstoredParty } from '../../domain/UnstoredParty';
 import { useFetchPartyById } from '../api/reactQuery/useFetchPartyById';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useUpdateParty } from '../api/reactQuery/useUpdateParty';
 import { FunctionComponent, ReactElement } from 'react';
 
@@ -11,12 +12,13 @@ interface PartyEditProps {
 }
 
 const PartyEdit: FunctionComponent<PartyEditProps> = ({ partyId }): ReactElement => {
+  const { t } = useTranslation();
   const { data, status } = useFetchPartyById(partyId);
   const updateParty = useUpdateParty();
   const history = useHistory();
 
   if (status === 'loading') {
-    return (<p>Lade Party...</p>);
+    return (<p>{t('partyEdit.loading')}</p>);
   }
 
   if (status === 'error') {

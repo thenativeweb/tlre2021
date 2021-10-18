@@ -1,5 +1,5 @@
 import { Guest } from '../../../domain/Guest';
-import { useText } from '../../texts/useText';
+import { useTranslation } from 'react-i18next';
 import { FunctionComponent, ReactElement } from 'react';
 
 interface GuestListProps {
@@ -7,17 +7,17 @@ interface GuestListProps {
 }
 
 const GuestList: FunctionComponent<GuestListProps> = ({ guests }): ReactElement => {
-  const { texts } = useText();
+  const { t } = useTranslation();
 
   if (!guests || guests.length === 0) {
     return (
-      <p>{texts.guestList.noGuests}</p>);
+      <p>{ t('guestList.noGuests') }</p>);
   }
 
   const guestListItems = guests.map((guest, index): ReactElement => {
     const costumeInfo = guest.costume ?
-      texts.guestList.withCostume(guest.costume) :
-      texts.guestList.noCostum;
+      t('guestList.withCostume', { guest }) :
+      t('guestList.noCostume');
 
     return (
       // eslint-disable-next-line react/no-array-index-key
