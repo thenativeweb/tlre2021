@@ -1,4 +1,5 @@
 import { createAppStore } from '../src/app/redux/store';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ReactElement } from 'react';
 import { Theme } from '../src/layout/Theme';
@@ -24,7 +25,9 @@ const renderWithProviders = (component: ReactElement): RenderResult => {
     <ThemeProvider theme={ Theme }>
       <Provider store={ store }>
         <QueryClientProvider client={ queryClient }>
-          {component}
+          <MemoryRouter>
+            {component}
+          </MemoryRouter>
         </QueryClientProvider>
       </Provider>
     </ThemeProvider>

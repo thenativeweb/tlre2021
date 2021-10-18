@@ -6,8 +6,10 @@ import { Guest } from '../../../domain/Guest';
 import { GuestList } from './GuestList';
 import { Headline } from '../../../components/Headline';
 import { HostInfo } from './HostInfo';
+import { Link } from 'react-router-dom';
 import { Party } from '../../../domain/Party';
 import { PartyDescription } from './PartyDescription';
+import { routes } from '../../routes';
 import { SubHeadline } from '../../../components/SubHeadline';
 import { useTranslation } from 'react-i18next';
 import { FunctionComponent, ReactElement } from 'react';
@@ -25,6 +27,7 @@ const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleN
     <FlexCard>
       <FlexCardRow>
         <FlexCardCol size={ 1 }>
+          <Link to={ routes.editParty.createLink(partyData.id) }>Party bearbeiten</Link>
           <Headline>{t('partyDetails.title', { name: partyData.host.name })}</Headline>
         </FlexCardCol>
       </FlexCardRow>
