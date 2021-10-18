@@ -6,8 +6,9 @@ import { TextArea } from '../../../../components/TextArea';
 import { TextInput } from '../../../../components/TextInput';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
 import { useTranslation } from 'react-i18next';
-import { ChangeEventHandler, FunctionComponent, ReactElement, useReducer } from 'react';
-import { newParty, partyFormReducer } from './partyFormReducer';
+import { ChangeEventHandler, FunctionComponent, ReactElement, useEffect } from 'react';
+import { prefillForm, resetForm, setAvatar, setDescription, setHostName } from './partyFormReducer';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
 interface PartyFormProps {
   onPartySave: (newParty: UnstoredParty) => void;
@@ -15,24 +16,32 @@ interface PartyFormProps {
 }
 
 const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): ReactElement => {
+  const dispatch = useAppDispatch();
+  const state = useAppSelector((rootState): UnstoredParty => rootState.partyForm);
+
   const { t } = useTranslation();
-  const [ state, dispatch ] = useReducer(partyFormReducer, party ?? newParty);
+
+  useEffect((): void => {
+    if (party) {
+      dispatch(prefillForm(party));
+    }
+  }, [ party, dispatch ]);
 
   const handleHostNameChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
-    dispatch({ type: 'SET_HOST_NAME', body: event.target.value });
+    dispatch(setHostName(event.target.value));
   };
 
   const handleAvatarChange = (newAvatar: string): void => {
-    dispatch({ type: 'SET_AVATAR', body: newAvatar });
+    dispatch(setAvatar(newAvatar));
   };
 
   const handleDescriptionChange: ChangeEventHandler<HTMLTextAreaElement> = (event): void => {
-    dispatch({ type: 'SET_DESCRIPTION', body: event.target.value });
+    dispatch(setDescription(event.target.value));
   };
 
   const handlePartySave = (): void => {
     onPartySave(state);
-    dispatch({ type: 'RESET_FORM' });
+    dispatch(resetForm());
   };
 
   return (

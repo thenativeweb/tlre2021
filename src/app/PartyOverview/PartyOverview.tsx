@@ -12,6 +12,17 @@ const MemoizedPartyList = React.memo(PartyList);
 
 const PartyOverview: FunctionComponent = (): ReactElement => {
   const { t } = useTranslation();
+
+  // REDUX
+  // You can use the redux hook below to see how fetching works with redux-thunks:
+  // -----
+  // const { parties, status } = useReduxFetchParties();
+  // -----
+  // You will have to add the following import to the top:
+  // import { useReduxFetchParties } from '../api/redux/useReduxFetchParties';
+  // REDUX
+
+  // When using REDUX, comment out the next two lines
   const { data, status } = useFetchParties();
   const parties = data ?? [];
 

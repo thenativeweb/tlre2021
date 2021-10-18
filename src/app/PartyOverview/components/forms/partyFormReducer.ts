@@ -1,46 +1,77 @@
+import { Party } from '../../../../domain/Party';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
 
-type PartyFormActionTypes = 'SET_DESCRIPTION' | 'SET_HOST_NAME' | 'SET_AVATAR' ;
+type PartyFormActionTypes = 'partyForm/SET_DESCRIPTION' | 'partyForm/SET_HOST_NAME' | 'partyForm/SET_AVATAR' ;
 
 type PartyFormAction = {
   type: PartyFormActionTypes;
-  body: string;
-} | { type: 'RESET_FORM' };
+  payload: string;
+} | { type: 'partyForm/RESET_FORM' } | { type: 'partyForm/PREFILL_FORM'; payload: Party };
 
 type PartyFormState = UnstoredParty;
 
-const newParty: PartyFormState = {
+const initialState: PartyFormState = {
   description: '',
   host: {
     name: ''
   }
 };
 
-const partyFormReducer = (state: PartyFormState, action: PartyFormAction): PartyFormState => {
+const prefillForm = (party: Party): PartyFormAction => ({
+  type: 'partyForm/PREFILL_FORM',
+  payload: party
+});
+
+const setDescription = (description: string): PartyFormAction => ({
+  type: 'partyForm/SET_DESCRIPTION',
+  payload: description
+});
+
+const setHostName = (hostName: string): PartyFormAction => ({
+  type: 'partyForm/SET_HOST_NAME',
+  payload: hostName
+});
+
+const setAvatar = (avatarUrl: string): PartyFormAction => ({
+  type: 'partyForm/SET_AVATAR',
+  payload: avatarUrl
+});
+
+const resetForm = (): PartyFormAction => ({
+  type: 'partyForm/RESET_FORM'
+});
+
+// eslint-disable-next-line @typescript-eslint/default-param-last
+const partyFormReducer = (state: PartyFormState = initialState, action: PartyFormAction): PartyFormState => {
   switch (action.type) {
-    case 'SET_DESCRIPTION':
+    case 'partyForm/PREFILL_FORM':
       return {
         ...state,
-        description: action.body
+        ...action.payload
       };
-    case 'SET_HOST_NAME':
+    case 'partyForm/SET_DESCRIPTION':
       return {
         ...state,
-        host: {
-          ...state.host,
-          name: action.body
-        }
+        description: action.payload
       };
-    case 'SET_AVATAR':
+    case 'partyForm/SET_HOST_NAME':
       return {
         ...state,
         host: {
           ...state.host,
-          avatarUrl: action.body
+          name: action.payload
         }
       };
-    case 'RESET_FORM':
-      return newParty;
+    case 'partyForm/SET_AVATAR':
+      return {
+        ...state,
+        host: {
+          ...state.host,
+          avatarUrl: action.payload
+        }
+      };
+    case 'partyForm/RESET_FORM':
+      return initialState;
     default:
       return state;
   }
@@ -48,9 +79,15 @@ const partyFormReducer = (state: PartyFormState, action: PartyFormAction): Party
 
 export {
   partyFormReducer,
-  newParty
+  initialState,
+  resetForm,
+  setAvatar,
+  setDescription,
+  setHostName,
+  prefillForm
 };
 
 export type {
-  PartyFormState
+  PartyFormState,
+  PartyFormAction
 };
