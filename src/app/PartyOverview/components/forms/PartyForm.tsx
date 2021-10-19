@@ -6,7 +6,7 @@ import { TextArea } from '../../../../components/TextArea';
 import { TextInput } from '../../../../components/TextInput';
 import { UnstoredParty } from '../../../../domain/UnstoredParty';
 import { useTranslation } from 'react-i18next';
-import { ChangeEventHandler, FunctionComponent, ReactElement, useEffect } from 'react';
+import { ChangeEventHandler, FunctionComponent, ReactElement, useEffect, useRef } from 'react';
 import { prefillForm, resetForm, setAvatar, setDescription, setHostName } from './partyFormReducer';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
@@ -16,6 +16,7 @@ interface PartyFormProps {
 }
 
 const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): ReactElement => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const state = useAppSelector((rootState): UnstoredParty => rootState.partyForm);
 
@@ -26,6 +27,10 @@ const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): R
       dispatch(prefillForm(party));
     }
   }, [ party, dispatch ]);
+
+  useEffect((): void => {
+    inputRef.current?.focus();
+  }, [ inputRef ]);
 
   const handleHostNameChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
     dispatch(setHostName(event.target.value));
@@ -47,6 +52,7 @@ const PartyForm: FunctionComponent<PartyFormProps> = ({ onPartySave, party }): R
   return (
     <Form>
       <TextInput
+        ref={ inputRef }
         label={ t('addPartyForm.hostNameInputLabel') }
         value={ state.host.name }
         onChange={ handleHostNameChange }

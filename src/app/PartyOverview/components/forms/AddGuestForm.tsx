@@ -1,6 +1,7 @@
 import { Button } from '../../../../components/Button';
 import { Form } from '../../../../components/Form';
 import { Guest } from '../../../../domain/Guest';
+import styled from 'styled-components';
 import { SubHeadline } from '../../../../components/SubHeadline';
 import { TextInput } from '../../../../components/TextInput';
 import { useTranslation } from 'react-i18next';
@@ -8,15 +9,21 @@ import React, { FormEventHandler, FunctionComponent, ReactElement, useEffect, us
 import { resetForm, setCostume, setName } from './addGuestFormReducer';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
+const ClickableHeadline = styled(SubHeadline)`
+  cursor: pointer;
+  :hover {
+    color: ${(props): string => props.theme.colors.primary};
+  }
+`;
+
 interface AddGuestFormProps {
   partyId: number;
   onSave: (newGuest: Guest) => void;
-  focus?: boolean;
 }
 
-const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave, focus = false }): ReactElement => {
+const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave }): ReactElement => {
   const { t } = useTranslation();
-  const buttonRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
   const newGuest = useAppSelector((rootState): Guest => rootState.addGuestForm[partyId]);
@@ -25,11 +32,9 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave, f
     dispatch(resetForm(partyId));
   }, [ dispatch, partyId ]);
 
-  useEffect((): void => {
-    if (focus) {
-      buttonRef.current?.focus();
-    }
-  }, [ focus ]);
+  const handleHeadlineClick = (): void => {
+    inputRef.current?.focus();
+  };
 
   const handleSave: FormEventHandler<HTMLFormElement> = (): void => {
     onSave(newGuest);
@@ -37,6 +42,7 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave, f
     dispatch(resetForm(partyId));
   };
 
+  // On initial setup, newGuest is not there yet as we only create its state in the dispatch above
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!newGuest) {
     // eslint-disable-next-line react/jsx-no-useless-fragment
@@ -45,8 +51,9 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave, f
 
   return (
     <Form onSubmit={ handleSave }>
-      <SubHeadline>{t('addGuestForm.title')}</SubHeadline>
+      <ClickableHeadline onClick={ handleHeadlineClick }>{t('addGuestForm.title')}</ClickableHeadline>
       <TextInput
+        ref={ inputRef }
         label={ t('addGuestForm.nameInputLabel') }
         value={ newGuest.name }
         // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

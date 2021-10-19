@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('<AddGuestForm />', (): void => {
   it('lets the user input a name.', async (): Promise<void> => {
-    renderWithProviders(<AddGuestForm onSave={ noop } />);
+    renderWithProviders(<AddGuestForm partyId={ 1 } onSave={ noop } />);
 
     userEvent.type(screen.getByLabelText('Name'), 'New Guest Name');
 
@@ -15,7 +15,7 @@ describe('<AddGuestForm />', (): void => {
   });
 
   it('lets the user input a costum.', async (): Promise<void> => {
-    renderWithProviders(<AddGuestForm onSave={ noop } />);
+    renderWithProviders(<AddGuestForm partyId={ 1 } onSave={ noop } />);
 
     userEvent.type(screen.getByLabelText('Kostüm'), 'New Costume Name');
 
@@ -25,7 +25,7 @@ describe('<AddGuestForm />', (): void => {
   it('passes the guests data on submit.', async (): Promise<void> => {
     const onSaveSpy = jest.fn();
 
-    renderWithProviders(<AddGuestForm onSave={ onSaveSpy } />);
+    renderWithProviders(<AddGuestForm partyId={ 1 } onSave={ onSaveSpy } />);
 
     userEvent.type(screen.getByLabelText('Name'), 'New Guest Name');
     userEvent.type(screen.getByLabelText('Kostüm'), 'New Costume Name');
@@ -37,5 +37,13 @@ describe('<AddGuestForm />', (): void => {
     };
 
     expect(onSaveSpy).toHaveBeenCalledWith(expectedGuest);
+  });
+
+  it('on click of headline, focuses the name field.', async (): Promise<void> => {
+    renderWithProviders(<AddGuestForm partyId={ 1 } onSave={ noop } />);
+
+    userEvent.click(screen.getByText('Zur Party anmelden:'));
+
+    expect(screen.getByLabelText('Name')).toHaveFocus();
   });
 });

@@ -98,4 +98,10 @@ describe('<PartyFormTest />', (): void => {
 
     expect(onPartySaveSpy).toHaveBeenCalledWith(expectedParty);
   });
+
+  it('auto focuses name input.', async (): Promise<void> => {
+    renderWithProviders(<PartyForm onPartySave={ noop } />);
+
+    expect(screen.getByLabelText('Name des Gastgebers')).toHaveFocus();
+  });
 });
