@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm:start:frontend\" \"npm:start:backend\"",
+    "start": "npm run start:frontend",
     "start:frontend": "cross-env ESLINT_NO_DEV_ERRORS='true' BROWSER=none react-scripts start",
     "start:backend": "ts-node --project mockBackend/tsconfig.json mockBackend/jsonServer.ts",
     "lint": "eslint ./src/**/*",

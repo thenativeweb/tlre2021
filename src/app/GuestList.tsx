@@ -1,4 +1,4 @@
-import { Guest } from '../../../domain/Guest';
+import { Guest } from '../domain/Guest';
 import { FunctionComponent, ReactElement } from 'react';
 
 interface GuestListProps {

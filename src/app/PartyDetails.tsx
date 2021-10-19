@@ -1,22 +1,19 @@
-import { AddGuestForm } from './forms/AddGuestForm';
-import { FlexCard } from '../../../layout/FlexCard/FlexCard';
-import { FlexCardCol } from '../../../layout/FlexCard/FlexCardCol';
-import { FlexCardRow } from '../../../layout/FlexCard/FlexCardRow';
-import { Guest } from '../../../domain/Guest';
+import { FlexCard } from '../layout/FlexCard/FlexCard';
+import { FlexCardCol } from '../layout/FlexCard/FlexCardCol';
+import { FlexCardRow } from '../layout/FlexCard/FlexCardRow';
 import { GuestList } from './GuestList';
-import { Headline } from '../../../components/Headline';
+import { Headline } from '../components/Headline';
 import { HostInfo } from './HostInfo';
-import { Party } from '../../../domain/Party';
+import { Party } from '../domain/Party';
 import { PartyDescription } from './PartyDescription';
-import { SubHeadline } from '../../../components/SubHeadline';
+import { SubHeadline } from '../components/SubHeadline';
 import { FunctionComponent, ReactElement } from 'react';
 
 interface PartyDetailsProps {
   partyData: Party;
-  handleNewGuest: (newGuest: Guest) => void;
 }
 
-const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleNewGuest }): ReactElement => (
+const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData }): ReactElement => (
   <FlexCard>
     <FlexCardRow>
       <FlexCardCol size={ 1 }>
@@ -39,7 +36,6 @@ const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleN
       <FlexCardCol size={ 3 }>
         <SubHeadline>Auf diese {partyData.guests.length} Gäste darfst Du dich freuen</SubHeadline>
         <GuestList guests={ partyData.guests } />
-        <AddGuestForm onSave={ handleNewGuest } />
       </FlexCardCol>
     </FlexCardRow>
   </FlexCard>
