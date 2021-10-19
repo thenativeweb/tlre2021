@@ -47,7 +47,7 @@ const PartyDetails: FunctionComponent<PartyDetailsProps> = ({ partyData, handleN
         <FlexCardCol size={ 3 }>
           <SubHeadline>{t('partyDetails.guestHeadline', { count: guestCount, context: guestCount })}</SubHeadline>
           <GuestList guests={ partyData.guests } />
-          <AddGuestForm onSave={ handleNewGuest } />
+          <AddGuestForm partyId={ partyData.id } onSave={ handleNewGuest } />
         </FlexCardCol>
       </FlexCardRow>
     </FlexCard>
