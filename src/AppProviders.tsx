@@ -6,24 +6,21 @@ import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
 import { Theme } from './layout/Theme';
 import { ThemeProvider } from 'styled-components';
+import { FlatProviderArray, FlatProviders, providerFrom } from './utils/FlatProviders';
 import { FunctionComponent, ReactElement } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
+const providers: FlatProviderArray = [
+  providerFrom(ThemeProvider, { theme: Theme }),
+  providerFrom(Provider, { store: createAppStore() }),
+  providerFrom(ApiContext.Provider, { value: createFetchPartyApi() }),
+  providerFrom(I18nextProvider, { i18n }),
+  providerFrom(QueryClientProvider, { client: queryClient })
+];
 
-const AppProviders: FunctionComponent = ({ children }): ReactElement => (
-  <ThemeProvider theme={ Theme }>
-    <Provider store={ createAppStore() }>
-      <ApiContext.Provider value={ createFetchPartyApi() }>
-        <I18nextProvider i18n={ i18n }>
-          <QueryClientProvider client={ queryClient }>
-            {children}
-          </QueryClientProvider>
-        </I18nextProvider>
-      </ApiContext.Provider>
-    </Provider>
-  </ThemeProvider>
-);
+const AppProviders: FunctionComponent = ({ children }): ReactElement =>
+  <FlatProviders providers={ providers }>{children}</FlatProviders>;
 
 export {
   AppProviders
