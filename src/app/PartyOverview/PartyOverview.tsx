@@ -4,14 +4,25 @@ import { PartyList } from './components/PartyList';
 import { PartyNumbers } from './components/PartyNumbers';
 import { useAddParty } from '../api/reactQuery/useAddParty';
 import { useFetchParties } from '../api/reactQuery/useFetchParties';
-import { useText } from '../texts/useText';
+import { useTranslation } from 'react-i18next';
 import { useUpdateParty } from '../api/reactQuery/useUpdateParty';
 import React, { FunctionComponent, ReactElement } from 'react';
 
 const MemoizedPartyList = React.memo(PartyList);
 
 const PartyOverview: FunctionComponent = (): ReactElement => {
-  const { texts } = useText();
+  const { t } = useTranslation();
+
+  // REDUX
+  // You can use the redux hook below to see how fetching works with redux-thunks:
+  // -----
+  // const { parties, status } = useReduxFetchParties();
+  // -----
+  // You will have to add the following import to the top:
+  // import { useReduxFetchParties } from '../api/redux/useReduxFetchParties';
+  // REDUX
+
+  // When using REDUX, comment out the next two lines
   const { data, status } = useFetchParties();
   const parties = data ?? [];
 
@@ -22,17 +33,17 @@ const PartyOverview: FunctionComponent = (): ReactElement => {
   const handleSaveParty = addParty.mutate;
 
   if (status === 'loading') {
-    return (<p>{texts.partyOverview.loading}</p>);
+    return (<p>{t('partyOverview.loading')}</p>);
   }
 
   if (status === 'error') {
-    return (<ErrorCard message={ texts.partyOverview.error } />);
+    return (<ErrorCard message={ t('partyOverview.error') } />);
   }
 
   return (
     <React.Fragment>
-      <ErrorCard displayWhen={ updateParty.status === 'error' } message={ texts.partyOverview.addGuestError } />
-      <ErrorCard displayWhen={ addParty.status === 'error' } message={ texts.partyOverview.savePartyError } />
+      <ErrorCard displayWhen={ updateParty.status === 'error' } message={ t('partyOverview.addGuestError') } />
+      <ErrorCard displayWhen={ addParty.status === 'error' } message={ t('partyOverview.savePartyError') } />
       <PartyNumbers parties={ parties } />
       <AddPartyAccordion onPartySave={ handleSaveParty } />
       <MemoizedPartyList parties={ parties } onUpdateParty={ handleUpdateParty } />

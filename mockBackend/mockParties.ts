@@ -1,3 +1,4 @@
+import { AvatarData } from '../src/app/PartyOverview/components/forms/AvatarData';
 import { Party } from '../src/domain/Party';
 
 const mockParties: Party[] = [
@@ -5,7 +6,7 @@ const mockParties: Party[] = [
     id: 1,
     host: {
       name: 'David',
-      avatarUrl: 'avatare/avatar1.jpg'
+      avatarUrl: AvatarData.avatar1.url
     },
     description: 'Gruselig schaurige Party - mit ordentlich Metal und Rock Musik!',
     guests: [
@@ -18,7 +19,7 @@ const mockParties: Party[] = [
     id: 2,
     host: {
       name: 'Golo',
-      avatarUrl: 'avatare/avatar2.jpg'
+      avatarUrl: AvatarData.avatar2.url
     },
     description: 'Die beste Party des Jahres! Mit den besten Elektro-Beats überhaupt!',
     guests: []

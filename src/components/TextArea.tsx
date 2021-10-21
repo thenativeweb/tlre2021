@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
+import { ChangeEventHandler, FunctionComponent, ReactElement, useRef } from 'react';
 
 const Container = styled.div`
   display: inline-block;
@@ -22,14 +22,20 @@ interface TextAreaProps {
 }
 
 const TextArea: FunctionComponent<TextAreaProps> = (props): ReactElement => {
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const { label } = props;
+
+  const onClick = (): void => {
+    inputRef.current?.focus();
+  };
 
   return (
     <Container>
       <Label>
         { label }
-        <StyledTextArea { ...props }>TextArea</StyledTextArea>
+        <StyledTextArea ref={ inputRef } { ...props }>TextArea</StyledTextArea>
       </Label>
+      <button type='button' onClick={ onClick }>Fokus</button>
     </Container>
   );
 };

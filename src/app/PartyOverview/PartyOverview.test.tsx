@@ -12,10 +12,10 @@ import { renderWithProviders } from '../../../test/renderWithProviders';
 import { UnstoredParty } from '../../domain/UnstoredParty';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { RenderResult, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 describe('PartyOverview', (): void => {
-  const renderWithApi = (testApi: PartyApi): void => {
+  const renderWithApi = (testApi: PartyApi): RenderResult => {
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: {

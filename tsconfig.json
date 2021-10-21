@@ -23,7 +23,11 @@
     "jsx": "react-jsx",
   },
   "include": [
+    "mockBackend",
     "src",
     "test"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

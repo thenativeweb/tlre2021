@@ -5,12 +5,25 @@ import { renderWithProviders } from '../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 
 describe('<PartyNumbers />', (): void => {
-  it('shows the number of the parties.', async (): Promise<void> => {
+  it('when only one party, shows a special text.', async (): Promise<void> => {
     renderWithProviders(
-      <PartyNumbers parties={ [] } />
+      <PartyNumbers parties={ [ createTestParty() ] } />
     );
 
-    expect(screen.getByText('0 Parties', { exact: false })).toBeInTheDocument();
+    expect(screen.getByText('eine Party', { exact: false })).toBeInTheDocument();
+  });
+
+  it('when many parties, shows the number of parties in plural.', async (): Promise<void> => {
+    renderWithProviders(
+      <PartyNumbers
+        parties={ [
+          createTestParty(),
+          createTestParty()
+        ] }
+      />
+    );
+
+    expect(screen.getByText('2 Partys', { exact: false })).toBeInTheDocument();
   });
 
   it('shows the accumulated number of guests accross all parties.', async (): Promise<void> => {
@@ -24,5 +37,13 @@ describe('<PartyNumbers />', (): void => {
     );
 
     expect(screen.getByText('4 Gäste', { exact: false })).toBeInTheDocument();
+  });
+
+  it('shows a special message when there is no party at all.', async (): Promise<void> => {
+    renderWithProviders(
+      <PartyNumbers parties={ [] } />
+    );
+
+    expect(screen.getByText('Aktuell sind keine Partys eingetragen.')).toBeInTheDocument();
   });
 });

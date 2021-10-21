@@ -17,6 +17,15 @@ const createInMemoryPartyApi = ({
     async fetchAllParties (): Promise<Party[]> {
       return Promise.resolve(partyState);
     },
+    async fetchPartyById (id: number): Promise<Party> {
+      const party = partyState.find((searchParty): boolean => searchParty.id === id);
+
+      if (!party) {
+        throw new Error(`Party with id ${id} not found.`);
+      }
+
+      return Promise.resolve(party);
+    },
     async addNewParty (unstoredParty: UnstoredParty): Promise<Party> {
       const promotedParty: Party = {
         ...unstoredParty,

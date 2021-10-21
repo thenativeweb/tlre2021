@@ -1,4 +1,4 @@
-import { useText } from '../../texts/useText';
+import { useTranslation } from 'react-i18next';
 import React, { FunctionComponent, ReactElement } from 'react';
 
 interface HostInfoProps {
@@ -7,11 +7,11 @@ interface HostInfoProps {
 }
 
 const HostInfo: FunctionComponent<HostInfoProps> = function ({ name, avatarUrl }): ReactElement {
-  const { texts } = useText();
+  const { t } = useTranslation();
 
   return (
     <React.Fragment>
-      { avatarUrl && <img src={ avatarUrl } width='100px' alt={ texts.hostInfo.avatarAltText(name) } /> }
+      { avatarUrl && <img src={ avatarUrl } width='100px' alt={ t('hostInfo.avatarAltText', { name }) } /> }
       <br />
       <span><strong>{name}</strong></span>
     </React.Fragment>

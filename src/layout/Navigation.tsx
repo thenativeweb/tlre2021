@@ -1,5 +1,6 @@
 import { faSpider } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FunctionComponent, ReactElement } from 'react';
 
@@ -30,7 +31,7 @@ const Navigation: FunctionComponent = (): ReactElement => (
   <header>
     <nav>
       <NavUl>
-        <NavLi><a href='/'><FontAwesomeIcon icon={ faSpider } /> HPP</a></NavLi>
+        <NavLi><Link to='/'><FontAwesomeIcon icon={ faSpider } /> HPP</Link></NavLi>
       </NavUl>
     </nav>
   </header>

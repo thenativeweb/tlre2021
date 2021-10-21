@@ -1,3 +1,4 @@
+import { AvatarData } from './AvatarData';
 import { AvatarSelect } from './AvatarSelect';
 import noop from 'lodash/noop';
 import { renderWithProviders } from '../../../../../test/renderWithProviders';
@@ -29,7 +30,7 @@ describe('<AvatarSelect />', (): void => {
     renderWithProviders(
       <AvatarSelect
         onChange={ noop }
-        value='avatare/avatar1.jpg'
+        value={ AvatarData.avatar1.url }
       />
     );
 
@@ -42,12 +43,12 @@ describe('<AvatarSelect />', (): void => {
     renderWithProviders(
       <AvatarSelect
         onChange={ onChangeSpy }
-        value='avatare/avatar1.jpg'
+        value={ AvatarData.avatar1.url }
       />
     );
 
-    userEvent.selectOptions(screen.getByLabelText('Avatar auswählen'), 'Avatar 2');
+    userEvent.selectOptions(screen.getByLabelText('Avatar auswählen'), AvatarData.avatar2.name);
 
-    expect(onChangeSpy).toHaveBeenCalledWith('avatare/avatar2.jpg');
+    expect(onChangeSpy).toHaveBeenCalledWith(AvatarData.avatar2.url);
   });
 });

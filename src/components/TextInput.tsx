@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ChangeEventHandler, FunctionComponent, ReactElement } from 'react';
+import React, { ChangeEventHandler, ReactElement } from 'react';
 
 const Container = styled.div`
   display: inline-block;
@@ -21,22 +21,24 @@ interface TextInputProps {
   onChange: ChangeEventHandler<HTMLInputElement>;
   label: string;
 }
-const TextInput: FunctionComponent<TextInputProps> = ({
+
+const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(({
   value,
   onChange,
   label
-}): ReactElement => (
+}, ref): ReactElement => (
   <Container>
     <Label>
       {label}
       <StyledTextInput
+        ref={ ref }
         type='text'
         onChange={ onChange }
         value={ value }
       />
     </Label>
   </Container>
-);
+));
 
 export {
   TextInput

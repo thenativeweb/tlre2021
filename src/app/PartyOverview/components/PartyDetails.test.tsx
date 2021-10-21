@@ -7,6 +7,7 @@ import { PartyDetails } from './PartyDetails';
 import { renderWithProviders } from '../../../../test/renderWithProviders';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Route, Switch } from 'react-router-dom';
 
 describe('<PartyDetails />', (): void => {
   it('shows a headline with the Hosts name.', async (): Promise<void> => {
@@ -95,5 +96,24 @@ describe('<PartyDetails />', (): void => {
     };
 
     expect(handleNewGuestSpy).toHaveBeenCalledWith(expectedGuest);
+  });
+
+  it('navigates to the edit page of the party when the edit-link is clicked.', async (): Promise<void> => {
+    const testParty = createTestParty({ id: 1 });
+
+    renderWithProviders(
+      <Switch>
+        <Route exact={ true } path='/'>
+          <PartyDetails partyData={ testParty } handleNewGuest={ noop } />
+        </Route>
+        <Route path='/edit/1'>
+          <p data-testid='editpage' />
+        </Route>
+      </Switch>
+    );
+
+    userEvent.click(screen.getByText('Party bearbeiten'));
+
+    expect(await screen.findByTestId('editpage')).toBeInTheDocument();
   });
 });
