@@ -1,6 +1,7 @@
 import { Button } from '../../../../components/Button';
 import { Form } from '../../../../components/Form';
 import { Guest } from '../../../../domain/Guest';
+import party from 'party-js';
 import styled from 'styled-components';
 import { SubHeadline } from '../../../../components/SubHeadline';
 import { TextInput } from '../../../../components/TextInput';
@@ -24,6 +25,7 @@ interface AddGuestFormProps {
 const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave }): ReactElement => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef <HTMLButtonElement>(null);
 
   const dispatch = useAppDispatch();
   const newGuest = useAppSelector((rootState): Guest => rootState.addGuestForm[partyId]);
@@ -37,6 +39,7 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave })
   };
 
   const handleSave: FormEventHandler<HTMLFormElement> = (): void => {
+    party.confetti(buttonRef.current!);
     onSave(newGuest);
 
     dispatch(resetForm(partyId));
@@ -65,7 +68,7 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave })
         // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
         onChange={ event => dispatch(setCostume(partyId, event.target.value)) }
       />
-      <Button type='submit'>{ t('addGuestForm.saveButtonLabel') }</Button>
+      <Button ref={ buttonRef } type='submit'>{ t('addGuestForm.saveButtonLabel') }</Button>
     </Form>
   );
 };
