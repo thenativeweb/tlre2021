@@ -17,7 +17,7 @@ const StyledTextInput = styled.input`
 `;
 
 interface TextInputProps {
-  value: any;
+  value: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
   label: string;
 }
