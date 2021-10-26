@@ -1,4 +1,5 @@
 import { ApiContext } from '../api/PartyApi/ApiContext';
+import { AvatarData } from './components/forms/AvatarData';
 import { createInMemoryPartyApi } from '../api/PartyApi/InMemoryPartyApi';
 import { createTestHost } from '../../domain/createTestHost';
 import { createTestParty } from '../../domain/createTestParty';
@@ -42,8 +43,8 @@ const getApiFor = (apiStatus: ApiStatus): PartyApi => {
 
   return createInMemoryPartyApi({
     initialState: [
-      createTestParty({ id: 1 }),
-      createTestParty({ id: 2, host: createTestHost({ name: 'Alex' }) })
+      createTestParty({ id: 1, host: createTestHost({ name: 'Kim', avatarUrl: AvatarData.avatar1.url }) }),
+      createTestParty({ id: 2, host: createTestHost({ name: 'Alex', avatarUrl: AvatarData.avatar2.url }) })
     ]
   });
 };
