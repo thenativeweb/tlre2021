@@ -1,6 +1,7 @@
 import { App } from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './types/hppWindow.d.ts';
 
 ReactDOM.render(
   <React.StrictMode>
