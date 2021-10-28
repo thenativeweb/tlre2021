@@ -3,31 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "analyze": "source-map-explorer --gzip 'build/static/js/*.js'",
     "start": "concurrently \"npm:start:frontend\" \"npm:start:backend\"",
-    "start:frontend": "cross-env ESLINT_NO_DEV_ERRORS='true' BROWSER=none react-scripts start",
+    "start:frontend": "npm run prepare:config && cross-env ESLINT_NO_DEV_ERRORS='true' BROWSER=none react-scripts start",
+    "start:mock": "npm run prepare:config && cross-env ESLINT_NO_DEV_ERRORS='true' BROWSER=none REACT_APP_MOCK_BACKEND=true react-scripts start",
     "start:backend": "ts-node --project mockBackend/tsconfig.json mockBackend/jsonServer.ts",
     "lint": "eslint ./src/**/*",
-    "build": "react-scripts build",
+    "build": "cross-env CONFIG_ENV=prod npm run prepare:config && react-scripts build",
+    "prepare:config": "node ./appConfigs/prepareConfig.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "cross-env ESLINT_NO_DEV_ERRORS='true' BROWSER=none start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
-    "@emotion/react": "11.4.1",
-    "@emotion/styled": "11.3.0",
     "@fontsource/creepster": "4.5.0",
     "@fontsource/faustina": "4.5.0",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fortawesome/react-fontawesome": "0.1.15",
-    "@mui/material": "5.0.3",
-    "@testing-library/jest-dom": "5.14.1",
-    "@testing-library/react": "11.2.7",
-    "@testing-library/user-event": "12.8.3",
-    "@types/jest": "26.0.24",
-    "@types/node": "12.20.27",
-    "@types/react": "17.0.27",
-    "@types/react-dom": "17.0.9",
-    "@types/styled-components": "5.1.14",
+    "@sentry/react": "6.13.3",
+    "@sentry/tracing": "6.13.3",
     "i18next": "21.3.2",
     "lodash": "4.17.21",
     "party-js": "2.1.2",
@@ -41,15 +37,28 @@
     "redux": "4.1.1",
     "redux-thunk": "2.3.0",
     "styled-components": "5.3.1",
-    "typescript": "4.4.3",
-    "web-vitals": "1.1.2"
+    "typescript": "4.4.3"
   },
   "devDependencies": {
     "@axe-core/react": "4.3.1",
+    "@storybook/addon-actions": "6.3.12",
+    "@storybook/addon-essentials": "6.3.12",
+    "@storybook/addon-links": "6.3.12",
+    "@storybook/node-logger": "6.3.12",
+    "@storybook/preset-create-react-app": "3.2.0",
+    "@storybook/react": "6.3.12",
+    "@testing-library/jest-dom": "5.14.1",
+    "@testing-library/react": "11.2.7",
     "@testing-library/react-hooks": "7.0.2",
+    "@testing-library/user-event": "12.8.3",
+    "@types/jest": "26.0.24",
     "@types/json-server": "0.14.4",
+    "@types/node": "12.20.27",
+    "@types/react": "17.0.27",
+    "@types/react-dom": "17.0.9",
     "@types/react-redux": "7.1.19",
     "@types/react-router-dom": "5.3.1",
+    "@types/styled-components": "5.1.14",
     "concurrently": "6.3.0",
     "cross-env": "7.0.3",
     "eslint": "7.32.0",
@@ -57,11 +66,14 @@
     "eslint-plugin-styled-components-a11y": "0.0.34",
     "jest-styled-components": "7.0.5",
     "json-server": "0.16.3",
+    "source-map-explorer": "2.5.2",
+    "storybook-addon-styled-component-theme": "2.0.0",
     "ts-node": "10.2.1"
   },
   "browserslist": {
     "production": [
       ">0.2%",
+      "not IE 11",
       "not dead",
       "not op_mini all"
     ],
@@ -69,6 +81,18 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   }
 }

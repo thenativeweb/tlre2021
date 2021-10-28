@@ -64,7 +64,7 @@ const AddGuestForm: FunctionComponent<AddGuestFormProps> = ({ partyId, onSave })
       />
       <TextInput
         label={ t('addGuestForm.costumeInputLabel') }
-        value={ newGuest.costume }
+        value={ newGuest.costume ?? '' }
         // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
         onChange={ event => dispatch(setCostume(partyId, event.target.value)) }
       />

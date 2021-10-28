@@ -10,8 +10,8 @@ const parseJsonResponse = async (res: Response): Promise<any> => {
   return res.json();
 };
 
-const createFetchPartyApi = (): PartyApi => {
-  const partiesEndpoint = 'http://localhost:3001/parties';
+const createFetchPartyApi = (apiHost: string): PartyApi => {
+  const partiesEndpoint = `${apiHost}/parties`;
 
   return {
     async addNewParty (newParty: UnstoredParty): Promise<Party> {

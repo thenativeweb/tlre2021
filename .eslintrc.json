@@ -15,5 +15,6 @@
   },
   "rules": {
     "styled-components-a11y/no-onchange": 0
-  }
+  },
+  "ignorePatterns": ["!**/*", ".storybook/*", "./src/stories/**"]
 }

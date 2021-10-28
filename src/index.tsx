@@ -1,10 +1,11 @@
-import { App } from './App';
+import { ProfiledApp } from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './types/hppWindow.d.ts';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ProfiledApp />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,0 +1,66 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Accordion } from './Accordion';
+import { Button } from '../Button';
+import { ComponentMeta } from '@storybook/react';
+import { ReactElement } from 'react';
+
+<Meta title="UI/Accordion" component={ Accordion } />
+
+
+# Accordion
+
+Mit dem `Accordion` kannst du eine Komponente bauen, die aus einem `Trigger` und einem `Content` besteht. Beide werden per Render-Props übergeben und sind somit frei wählbar.
+
+export const Template = (args) => <Accordion {...args} />;
+
+## Einfaches Beispiel
+
+Hier ein Beispiel für eine Config mit einem statsichen `content`
+
+```tsx
+<Accordion
+  trigger= {(props) => <Button { ...props }>Accordion Trigger</Button>}
+  content= {(<p>Accordion Content</p>)}
+/>
+```
+
+<Canvas>
+  <Story 
+    name="Einfaches Beispiel mit statischem Content"
+    args={{
+      trigger: (props) => <Button { ...props }>Accordion Trigger</Button>,
+      content: (<p>Accordion Content</p>)
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Schließen des Accordions aus dem Content
+
+Der `content` kann ebenfalls als React-Component geschrieben werden. Die an die `props` übergebene Funktion `closeContent()` kann dazu genutzt werden, um das Accordion aus dem Content heraus zu schließen.
+
+<Canvas>
+  <Story 
+    name="Schließen aus Content"
+    parameters={{
+      docs: {
+        source: {
+          code: `
+<Accordion 
+  trigger= {(props) => <Button { ...props }>Accordion öffnen</Button>}
+  content= {(props) => (<button onClick={ () => props.closeContent()}>Accordion schließen</button>)}
+/>
+`
+      }
+      }
+    }}
+    args={{
+      trigger: (props) => (<Button { ...props }>Accordion öffnen</Button>),
+      content: (props => (<button onClick={() => props.closeContent()}>Accordion Schließen</button>
+        ))
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

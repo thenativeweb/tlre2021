@@ -1,0 +1,30 @@
+import { Meta, Story } from '@storybook/addon-docs';
+
+<Meta title="Einführung in Storybook" />
+
+# Storybook für den Halloween Party Planner
+
+Das hier ist das Storybook für den Halloween Party Planner.
+Es besteht aus ein einigen ausgewählten Stories, die den Einsatz von Storybook verdeutlichen sollen.
+
+
+## Stories
+
+In folgendem eine Liste aller Beispiel-Stories, die wir sogar hier im `mdx` File direkt einbetten können.
+
+- [Headline](?path=/story/ui-headline--primary-button) - Eine sehr einfache Story ohne Controls o.ä.:
+
+  <Story id="ui-headline--primary-button" />
+
+
+- [TextArea](?path=/story/ui-textarea--default-text-area) - Eine Story mit inferierten `args` und `argTypes` (Storybook liest die möglichen `args` bzw. `props` automatisch aus): 
+
+  <Story id="ui-textarea--default-text-area" />
+
+- [TextInput](?path=/story/ui-textinput--default-text-input) - Wir können auch komplett eigene Komponente mit Hooks nutzen, um unsere Stories bzw. die Stories für unsere Komponenten aufzubereiten:
+
+  <Story id="ui-textinput--default-text-input" />
+
+- [PageOverview](?path=/story/app-partyoverview--party-overview-page): Ein sehr komplexes Beispiel, wie wir sogar die `controls` über `argTypes` komplett nach unseren Vorstellungen anpassen können - diese müssen sich nicht unbedingt an den Props der Komponente orientieren.
+
+  <Story id="app-partyoverview--party-overview-page" />
