@@ -8,7 +8,7 @@ const fs = require('fs');
 const env = process.env.CONFIG_ENV ?? 'dev';
 const sourceConfigJSBasePath = path.join(__dirname, '..', 'config');
 
-const targetConfigJSBasePath = path.join(__dirname, '..', 'public', 'config', 'config.js');
+const targetConfigJSBasePath = path.join(__dirname, '..', 'public', 'config');
 const targetConfigJSPath = path.join(targetConfigJSBasePath, 'config.js');
 
 const prepareConfig = async () => {
