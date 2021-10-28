@@ -1,5 +1,5 @@
 'use strict';
 
 window.hppConfig = {
-  apiHost: 'http://localhost:6000'
+  apiHost: 'http://localhost:3004'
 };

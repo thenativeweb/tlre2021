@@ -1,6 +1,9 @@
 import jsonServer from 'json-server';
 import { mockParties } from './mockParties';
 
+// eslint-disable-next-line no-process-env
+const port = process.env.PORT ?? 3_001;
+
 const server = jsonServer.create();
 const router = jsonServer.router({ parties: mockParties });
 const middlewares = jsonServer.defaults();
@@ -25,7 +28,7 @@ server.use((req, res, next): void => {
 
 // Use default router
 server.use(router);
-server.listen(3_001, (): void => {
+server.listen(port, (): void => {
   // eslint-disable-next-line no-console
-  console.log('JSON Server is running on Port 3001');
+  console.log(`JSON Server is running on Port ${port}`);
 });
