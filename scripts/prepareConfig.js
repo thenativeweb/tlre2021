@@ -6,7 +6,7 @@ const fs = require('fs');
 
 // eslint-disable-next-line no-process-env
 const env = process.env.CONFIG_ENV ?? 'dev';
-const sourceConfigJSBasePath = path.join(__dirname, '..', 'config');
+const sourceConfigJSBasePath = path.join(__dirname, '..', 'appConfigs');
 
 const targetConfigJSBasePath = path.join(__dirname, '..', 'public', 'config');
 const targetConfigJSPath = path.join(targetConfigJSBasePath, 'config.js');
