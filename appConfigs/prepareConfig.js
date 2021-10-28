@@ -6,13 +6,12 @@ const fs = require('fs');
 
 // eslint-disable-next-line no-process-env
 const env = process.env.CONFIG_ENV ?? 'dev';
-const sourceConfigJSBasePath = path.join(__dirname, '..', 'appConfigs');
 
 const targetConfigJSBasePath = path.join(__dirname, '..', 'public', 'config');
 const targetConfigJSPath = path.join(targetConfigJSBasePath, 'config.js');
 
 const prepareConfig = async () => {
-  const sourcePath = path.join(sourceConfigJSBasePath, `config.${env}.js`);
+  const sourcePath = path.join(__dirname, `config.${env}.js`);
 
   // Ensure the config directory exists
   await fs.promises.mkdir(targetConfigJSBasePath, {

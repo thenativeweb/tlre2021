@@ -10,7 +10,7 @@
     "start:backend": "ts-node --project mockBackend/tsconfig.json mockBackend/jsonServer.ts",
     "lint": "eslint ./src/**/*",
     "build": "cross-env CONFIG_ENV=prod npm run prepare:config && react-scripts build",
-    "prepare:config": "node ./scripts/prepareConfig.js",
+    "prepare:config": "node ./appConfigs/prepareConfig.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "cross-env ESLINT_NO_DEV_ERRORS='true' BROWSER=none start-storybook -p 6006 -s public",
