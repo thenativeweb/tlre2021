@@ -24,7 +24,7 @@
     "@fortawesome/react-fontawesome": "0.1.15",
     "@sentry/react": "6.13.3",
     "@sentry/tracing": "6.13.3",
-    "i18next": "21.3.2",
+    "i18next": "27.2.6",
     "lodash": "4.17.21",
     "party-js": "2.1.2",
     "react": "^17.0.2",
